@@ -1,7 +1,7 @@
 {
-  "name": "my-project",
+  "name": "pin-nepal",
   "version": "1.0.0",
-  "description": "Website template for Payload",
+  "description": "A modern, high-performance website for Pinnepal, a locally operated tour and travel company in Nepal",
   "license": "MIT",
   "type": "module",
   "scripts": {
