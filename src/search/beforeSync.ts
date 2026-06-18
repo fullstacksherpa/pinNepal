@@ -32,7 +32,7 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
       }
 
       const doc = await req.payload.findByID({
-        collection: 'categories',
+        collection: 'blog-categories',
         id: category,
         disableErrors: true,
         depth: 0,
@@ -50,7 +50,7 @@ export const beforeSyncWithSearch: BeforeSync = async ({ req, originalDoc, searc
     }
 
     modifiedDoc.categories = populatedCategories.map((each) => ({
-      relationTo: 'categories',
+      relationTo: 'blog-categories',
       categoryID: String(each.id),
       title: each.title,
     }))

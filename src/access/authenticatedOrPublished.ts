@@ -1,7 +1,9 @@
 import type { Access } from 'payload'
 
+import { isAdmin, isEditor } from './roles'
+
 export const authenticatedOrPublished: Access = ({ req: { user } }) => {
-  if (user) {
+  if (isAdmin(user) || isEditor(user)) {
     return true
   }
 
