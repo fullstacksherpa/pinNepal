@@ -28,13 +28,13 @@ export const PayloadRedirects: React.FC<Props> = async ({ disableNotFound, url }
       const id = redirectItem.to?.reference?.value
 
       const document = (await getCachedDocument(collection, id)()) as Blog
-      redirectUrl = `/blogs/${document?.slug}`
+      redirectUrl = `/blog/${document?.slug}`
     } else {
       const slug =
         typeof redirectItem.to?.reference?.value === 'object'
           ? redirectItem.to?.reference?.value?.slug
           : ''
-      redirectUrl = slug ? `/blogs/${slug}` : ''
+      redirectUrl = slug ? `/blog/${slug}` : ''
     }
 
     if (redirectUrl) redirect(redirectUrl)

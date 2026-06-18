@@ -46,7 +46,7 @@ export default async function Blog({ params: paramsPromise }: Args) {
   const { slug = '' } = await paramsPromise
   // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
-  const url = '/blogs/' + decodedSlug
+  const url = '/blog/' + decodedSlug
   const blog = await queryBlogBySlug({ slug: decodedSlug })
 
   if (!blog) return <PayloadRedirects url={url} />

@@ -29,7 +29,7 @@ export default function Page() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg">
-                <Link href="/blogs">Explore stories</Link>
+                <Link href="/blog">Explore stories</Link>
               </Button>
               <Button
                 asChild

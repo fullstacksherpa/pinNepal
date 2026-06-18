@@ -18,7 +18,7 @@ const generateTitle: GenerateTitle<Blog> = ({ doc }) => {
 const generateURL: GenerateURL<Blog> = ({ doc }) => {
   const url = getServerSideURL()
 
-  return doc?.slug ? `${url}/blogs/${doc.slug}` : url
+  return doc?.slug ? `${url}/blog/${doc.slug}` : url
 }
 
 export const plugins: Plugin[] = [

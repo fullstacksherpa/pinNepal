@@ -3,7 +3,7 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { unstable_cache } from 'next/cache'
 
-const getBlogsSitemap = unstable_cache(
+const getBlogSitemap = unstable_cache(
   async () => {
     const payload = await getPayload({ config })
     const SITE_URL =
@@ -29,27 +29,55 @@ const getBlogsSitemap = unstable_cache(
       },
     })
 
+    const categories = await payload.find({
+      collection: 'blog-categories',
+      depth: 0,
+      limit: 1000,
+      overrideAccess: false,
+      pagination: false,
+      select: {
+        slug: true,
+        updatedAt: true,
+      },
+    })
+
     const dateFallback = new Date().toISOString()
 
-    const sitemap = results.docs
+    const blogSitemap = results.docs
       ? results.docs
           .filter((blog) => Boolean(blog?.slug))
           .map((blog) => ({
-            loc: `${SITE_URL}/blogs/${blog?.slug}`,
+            loc: `${SITE_URL}/blog/${blog?.slug}`,
             lastmod: blog.updatedAt || dateFallback,
           }))
       : []
 
-    return sitemap
+    const categorySitemap = categories.docs
+      ? categories.docs
+          .filter((category) => Boolean(category?.slug))
+          .map((category) => ({
+            loc: `${SITE_URL}/blog/category/${category?.slug}`,
+            lastmod: category.updatedAt || dateFallback,
+          }))
+      : []
+
+    return [
+      {
+        loc: `${SITE_URL}/blog/category`,
+        lastmod: dateFallback,
+      },
+      ...categorySitemap,
+      ...blogSitemap,
+    ]
   },
-  ['blogs-sitemap'],
+  ['blog-sitemap'],
   {
-    tags: ['blogs-sitemap'],
+    tags: ['blog-sitemap'],
   },
 )
 
 export async function GET() {
-  const sitemap = await getBlogsSitemap()
+  const sitemap = await getBlogSitemap()
 
   return getServerSideSitemap(sitemap)
 }

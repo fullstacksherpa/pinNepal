@@ -33,7 +33,7 @@ export default async function Page() {
     <div className="pt-24 pb-24">
       <PageClient />
       <div className="container mb-16">
-        <div className="prose dark:prose-invert max-w-none">
+        <div className="prose max-w-none">
           <h1>Blogs</h1>
         </div>
       </div>
@@ -51,7 +51,7 @@ export default async function Page() {
 
       <div className="container">
         {blogs.totalPages > 1 && blogs.page && (
-          <Pagination page={blogs.page} totalPages={blogs.totalPages} />
+          <Pagination basePath="/blog" page={blogs.page} totalPages={blogs.totalPages} />
         )}
       </div>
     </div>

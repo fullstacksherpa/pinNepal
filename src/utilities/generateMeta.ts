@@ -36,7 +36,7 @@ export const generateMeta = async (args: { doc: Partial<Blog> | null }): Promise
           ]
         : undefined,
       title,
-      url: doc?.slug ? `/blogs/${doc.slug}` : '/',
+      url: doc?.slug ? `/blog/${doc.slug}` : '/',
     }),
     title,
   }
