@@ -3,19 +3,14 @@ import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
-import { bunnyStorage } from '@seshuk/payload-storage-bunny'
-import { formBuilderPlugin } from '@payloadcms/plugin-form-builder'
-import { Categories } from './collections/Categories'
-import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
+import { BlogCategories } from './collections/BlogCategories'
+import { Blogs } from './collections/Blogs'
 import { Users } from './collections/Users'
-import { Footer } from './Footer/config'
-import { Header } from './Header/config'
 
 import { Media } from './collections/Media'
-import { Videos } from './collections/Videos'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { plugins } from './plugins'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -37,54 +32,14 @@ export default buildConfig({
   editor: defaultLexical,
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL as string, // Safe cast
+      connectionString: process.env.DATABASE_URL as string,
       ssl: { rejectUnauthorized: false },
     },
   }),
-  // FIX: Added Videos to the collections array!
-  collections: [Pages, Posts, Media, Videos, Categories, Users],
+  collections: [Blogs, BlogCategories, Media, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer],
-  plugins: [
-    // 1. Restore the Form Builder plugin (this creates the 'forms' collection automatically)
-    formBuilderPlugin({
-      fields: {
-        payment: false,
-      },
-    }),
-    bunnyStorage({
-      collections: {
-        media: {
-          prefix: 'images',
-          disablePayloadAccessControl: true,
-          // Removed: stream: false
-        },
-        videos: {
-          storage: false,
-          prefix: 'videos',
-          disablePayloadAccessControl: true,
-          // Removed: storage: false
-          stream: {
-            mp4Fallback: true,
-          },
-        },
-      } as Record<string, any>, // <--- THE FIX IS HERE
-      storage: {
-        // FIX: Cast environment variables as string
-        apiKey: process.env.BUNNY_STORAGE_API_KEY as string,
-        hostname: process.env.BUNNY_HOSTNAME as string,
-        zoneName: process.env.BUNNY_ZONE_NAME as string,
-        region: 'sg',
-      },
-      stream: {
-        // FIX: Cast environment variables as string
-        apiKey: process.env.BUNNY_STREAM_API_KEY as string,
-        hostname: process.env.BUNNY_STREAM_HOSTNAME as string,
-        libraryId: Number(process.env.BUNNY_STREAM_LIBRARY_ID), // Number() already handles the cast implicitly
-      },
-    }),
-  ],
-  secret: process.env.PAYLOAD_SECRET as string, // Safe cast
+  plugins,
+  secret: process.env.PAYLOAD_SECRET as string,
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

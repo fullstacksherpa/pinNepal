@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
   // Your updated Bunny Optimizer Configuration
   images: {
     loader: 'custom',
-    loaderFile: './src/utils/bunny-loader.ts',
+    loaderFile: './src/utilities/bunny-loader.ts',
     remotePatterns: [
       {
         protocol: 'https',

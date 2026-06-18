@@ -4,27 +4,47 @@ import useClickableCard from '@/utilities/useClickableCard'
 import Link from 'next/link'
 import React, { Fragment } from 'react'
 
-import type { Post } from '@/payload-types'
+import type { Blog, Media as MediaType } from '@/payload-types'
 
 import { Media } from '@/components/Media'
 
-export type CardPostData = Pick<Post, 'slug' | 'categories' | 'meta' | 'title'>
+type CardAuthor = {
+  id?: string | null
+  image?: number | MediaType | null
+  name?: string | null
+  title?: string | null
+}
+
+export type CardBlogData = Pick<Blog, 'slug' | 'categories' | 'meta' | 'title'> & {
+  populatedAuthors?: CardAuthor[] | null
+}
 
 export const Card: React.FC<{
   alignItems?: 'center'
   className?: string
-  doc?: CardPostData
-  relationTo?: 'posts'
+  doc?: CardBlogData
+  relationTo?: 'blogs'
   showCategories?: boolean
   title?: string
 }> = (props) => {
   const { card, link } = useClickableCard({})
   const { className, doc, relationTo, showCategories, title: titleFromProps } = props
 
-  const { slug, categories, meta, title } = doc || {}
+  const { slug, categories, meta, populatedAuthors, title } = doc || {}
   const { description, image: metaImage } = meta || {}
 
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
+  const author = populatedAuthors?.find((author) => author?.name || author?.title || author?.image)
+  const authorImage = author?.image
+  const authorName = author?.name
+  const authorTitle = author?.title
+  const authorInitials = authorName
+    ?.split(' ')
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase()
   const titleToUse = titleFromProps || title
   const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
   const href = `/${relationTo}/${slug}`
@@ -71,6 +91,29 @@ export const Card: React.FC<{
                 {titleToUse}
               </Link>
             </h3>
+          </div>
+        )}
+        {author && (
+          <div className="mt-4 flex min-w-0 items-center gap-3 text-sm">
+            <div className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted text-xs font-medium text-muted-foreground">
+              {authorImage && typeof authorImage === 'object' ? (
+                <Media
+                  fill
+                  imgClassName="object-cover"
+                  pictureClassName="block h-full w-full"
+                  resource={authorImage}
+                  size="36px"
+                />
+              ) : (
+                <span>{authorInitials || 'PN'}</span>
+              )}
+            </div>
+            <div className="min-w-0">
+              {authorName && <p className="truncate font-medium leading-none">{authorName}</p>}
+              {authorTitle && (
+                <p className="mt-1 truncate text-muted-foreground leading-none">{authorTitle}</p>
+              )}
+            </div>
           </div>
         )}
         {description && <div className="mt-2">{description && <p>{sanitizedDescription}</p>}</div>}

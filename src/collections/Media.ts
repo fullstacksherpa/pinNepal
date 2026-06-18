@@ -5,27 +5,27 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 import { anyone } from '../access/anyone'
-import { authenticated } from '../access/authenticated'
+import { admins, adminsOrEditors } from '../access/roles'
 
 export const Media: CollectionConfig = {
   slug: 'media',
   folders: true,
   access: {
-    create: authenticated,
-    delete: authenticated,
+    admin: adminsOrEditors,
+    create: adminsOrEditors,
+    delete: admins,
     read: anyone,
-    update: authenticated,
+    update: adminsOrEditors,
   },
   upload: {
-    disableLocalStorage: true,
-    mimeTypes: ['image/*'],
-    focalPoint: true, // Retained so you can shift crop centers in your custom UI
+    mimeTypes: ['image/*', 'video/*'],
+    focalPoint: true,
   },
   fields: [
     {
       name: 'alt',
       type: 'text',
-      required: true, // Good practice to make required for PinNepal SEO optimization
+      required: true,
     },
     {
       name: 'caption',
