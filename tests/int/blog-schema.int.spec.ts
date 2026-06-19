@@ -1,5 +1,6 @@
 import 'dotenv/config'
 
+import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import config from '../../src/payload.config'
 import type { Field } from 'payload'
@@ -78,5 +79,13 @@ describe('blog schema', () => {
       required: true,
       saveToJWT: true,
     })
+  })
+
+  it('enables list and indent controls for blog rich text content', () => {
+    const source = readFileSync('src/collections/Blogs/index.ts', 'utf8')
+
+    expect(source).toContain('OrderedListFeature()')
+    expect(source).toContain('UnorderedListFeature()')
+    expect(source).toContain('IndentFeature()')
   })
 })

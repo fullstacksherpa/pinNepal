@@ -8,22 +8,30 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
 
-import type { Blog } from '@/payload-types'
+import type { Blog, Destination } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
-const generateTitle: GenerateTitle<Blog> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | PinNepal` : 'PinNepal'
+type SEOCollection = Blog | Destination
+
+const generateTitle: GenerateTitle<SEOCollection> = ({ doc }) => {
+  if (!doc) return 'PinNepal'
+
+  const title = 'name' in doc ? doc.name : doc.title
+
+  return title ? `${title} | PinNepal` : 'PinNepal'
 }
 
-const generateURL: GenerateURL<Blog> = ({ doc }) => {
+const generateURL: GenerateURL<SEOCollection> = ({ doc }) => {
   const url = getServerSideURL()
 
-  return doc?.slug ? `${url}/blogs/${doc.slug}` : url
+  if (!doc?.slug) return url
+
+  return 'name' in doc ? `${url}/destinations/${doc.slug}` : `${url}/blog/${doc.slug}`
 }
 
 export const plugins: Plugin[] = [
   redirectsPlugin({
-    collections: ['blogs'],
+    collections: ['blogs', 'destinations'],
     overrides: {
       // @ts-expect-error - This is a valid override, mapped fields don't resolve to the same type
       fields: ({ defaultFields }) => {

@@ -1,4 +1,5 @@
 import { formatDateTime } from 'src/utilities/formatDateTime'
+import Link from 'next/link'
 import React from 'react'
 
 import type { Blog } from '@/payload-types'
@@ -21,7 +22,7 @@ export const BlogHero: React.FC<{
           <div className="uppercase text-sm mb-6">
             {categories?.map((category, index) => {
               if (typeof category === 'object' && category !== null) {
-                const { title: categoryTitle } = category
+                const { slug: categorySlug, title: categoryTitle } = category
 
                 const titleToUse = categoryTitle || 'Untitled category'
 
@@ -29,7 +30,13 @@ export const BlogHero: React.FC<{
 
                 return (
                   <React.Fragment key={index}>
-                    {titleToUse}
+                    {categorySlug ? (
+                      <Link className="hover:underline" href={`/blog/category/${categorySlug}`}>
+                        {titleToUse}
+                      </Link>
+                    ) : (
+                      titleToUse
+                    )}
                     {!isLast && <React.Fragment>, &nbsp;</React.Fragment>}
                   </React.Fragment>
                 )

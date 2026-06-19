@@ -47,7 +47,7 @@ export const Card: React.FC<{
     .toUpperCase()
   const titleToUse = titleFromProps || title
   const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
-  const href = `/${relationTo}/${slug}`
+  const href = relationTo === 'blogs' ? `/blog/${slug}` : '#'
 
   return (
     <article
@@ -66,7 +66,7 @@ export const Card: React.FC<{
           <div className="uppercase text-sm mb-4">
             {categories?.map((category, index) => {
               if (typeof category === 'object') {
-                const { title: titleFromCategory } = category
+                const { slug: categorySlug, title: titleFromCategory } = category
 
                 const categoryTitle = titleFromCategory || 'Untitled category'
 
@@ -74,7 +74,16 @@ export const Card: React.FC<{
 
                 return (
                   <Fragment key={index}>
-                    {categoryTitle}
+                    {categorySlug ? (
+                      <Link
+                        className="relative z-10 hover:underline"
+                        href={`/blog/category/${categorySlug}`}
+                      >
+                        {categoryTitle}
+                      </Link>
+                    ) : (
+                      categoryTitle
+                    )}
                     {!isLast && <Fragment>, &nbsp;</Fragment>}
                   </Fragment>
                 )

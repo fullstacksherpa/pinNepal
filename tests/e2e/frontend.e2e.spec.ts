@@ -1,17 +1,19 @@
-import { test, expect, Page } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 
 test.describe('Frontend', () => {
-  let page: Page
-
-  test.beforeAll(async ({ browser }, testInfo) => {
-    const context = await browser.newContext()
-    page = await context.newPage()
-  })
-
   test('can load homepage', async ({ page }) => {
     await page.goto('http://localhost:3000')
-    await expect(page).toHaveTitle(/Payload Website Template/)
     const heading = page.locator('h1').first()
-    await expect(heading).toHaveText('Payload Website Template')
+    await expect(heading).toHaveText('Discover Nepal, one trail at a time')
+  })
+
+  test('can load blog category index', async ({ page }) => {
+    await page.goto('http://localhost:3000/blog/category')
+    await expect(page.locator('h1').first()).toHaveText('Blog Categories')
+  })
+
+  test('can load destination category index', async ({ page }) => {
+    await page.goto('http://localhost:3000/destinations/category')
+    await expect(page.locator('h1').first()).toHaveText('Destination Categories')
   })
 })

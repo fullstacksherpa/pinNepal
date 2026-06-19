@@ -3,6 +3,11 @@ import 'dotenv/config'
 import configPromise from '../payload.config'
 import { getPayload } from 'payload'
 import { blogCategorySeedData } from './blogCategories'
+import {
+  destinationCategorySeedData,
+  districtSeedData,
+  provinceSeedData,
+} from './destinationGeography'
 
 const adminUser = {
   email: 'og@gmail.com',
@@ -83,9 +88,126 @@ const seedBlogCategories = async () => {
   }
 }
 
+const seedDestinationGeography = async () => {
+  const payload = await getPayload({ config: configPromise })
+  const provinceIDsBySlug = new Map<string, number>()
+
+  for (const province of provinceSeedData) {
+    const existing = await payload.find({
+      collection: 'provinces',
+      limit: 1,
+      pagination: false,
+      where: {
+        slug: {
+          equals: province.slug,
+        },
+      },
+    })
+
+    const existingProvince = existing.docs[0]
+    const data = {
+      name: province.name,
+      slug: province.slug,
+    }
+
+    if (existingProvince) {
+      const updated = await payload.update({
+        collection: 'provinces',
+        id: existingProvince.id,
+        data,
+      })
+      provinceIDsBySlug.set(province.slug, updated.id)
+      continue
+    }
+
+    const created = await payload.create({
+      collection: 'provinces',
+      data,
+    })
+
+    provinceIDsBySlug.set(province.slug, created.id)
+  }
+
+  for (const district of districtSeedData) {
+    const provinceID = provinceIDsBySlug.get(district.provinceSlug)
+
+    if (!provinceID) {
+      throw new Error(`Missing province for district seed: ${district.name}`)
+    }
+
+    const existing = await payload.find({
+      collection: 'districts',
+      limit: 1,
+      pagination: false,
+      where: {
+        slug: {
+          equals: district.slug,
+        },
+      },
+    })
+
+    const data = {
+      name: district.name,
+      province: provinceID,
+      slug: district.slug,
+    }
+
+    const existingDistrict = existing.docs[0]
+
+    if (existingDistrict) {
+      await payload.update({
+        collection: 'districts',
+        id: existingDistrict.id,
+        data,
+      })
+      continue
+    }
+
+    await payload.create({
+      collection: 'districts',
+      data,
+    })
+  }
+
+  for (const category of destinationCategorySeedData) {
+    const existing = await payload.find({
+      collection: 'destination-categories',
+      limit: 1,
+      pagination: false,
+      where: {
+        slug: {
+          equals: category.slug,
+        },
+      },
+    })
+
+    const data = {
+      title: category.title,
+      slug: category.slug,
+    }
+
+    const existingCategory = existing.docs[0]
+
+    if (existingCategory) {
+      await payload.update({
+        collection: 'destination-categories',
+        id: existingCategory.id,
+        data,
+      })
+      continue
+    }
+
+    await payload.create({
+      collection: 'destination-categories',
+      data,
+    })
+  }
+}
+
 const run = async () => {
   await seedAdminUser()
   await seedBlogCategories()
+  await seedDestinationGeography()
 }
 
 run()
