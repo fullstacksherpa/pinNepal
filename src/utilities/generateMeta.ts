@@ -19,6 +19,7 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
 
 type MetaCompatibleDoc = {
   heroImage?: Config['db']['defaultIDType'] | Media | null
+  coverImage?: Config['db']['defaultIDType'] | Media | null
   meta?: {
     description?: string | null
     image?: Config['db']['defaultIDType'] | Media | null
@@ -28,25 +29,36 @@ type MetaCompatibleDoc = {
   seo?: {
     metaDescription?: string | null
     metaTitle?: string | null
+    ogImage?: Config['db']['defaultIDType'] | Media | null
   } | null
   slug?: string | null
+  title?: string | null
 }
 
 export const generateMeta = async (args: {
-  collection?: 'blogs' | 'destinations'
+  collection?: 'blogs' | 'destinations' | 'tour-packages'
   doc: MetaCompatibleDoc | null
 }): Promise<Metadata> => {
   const { collection = 'blogs', doc } = args
 
   const isDestination = collection === 'destinations'
-  const description = isDestination ? doc?.seo?.metaDescription : doc?.meta?.description
-  const image = isDestination ? doc?.heroImage : doc?.meta?.image
-  const metaTitle = isDestination ? doc?.seo?.metaTitle || doc?.name : doc?.meta?.title
+  const isTourPackage = collection === 'tour-packages'
+  const description =
+    isDestination || isTourPackage ? doc?.seo?.metaDescription : doc?.meta?.description
+  const image = isDestination
+    ? doc?.heroImage
+    : isTourPackage
+      ? doc?.seo?.ogImage || doc?.coverImage
+      : doc?.meta?.image
+  const metaTitle =
+    isDestination || isTourPackage
+      ? doc?.seo?.metaTitle || doc?.name || doc?.title
+      : doc?.meta?.title
 
   const ogImage = getImageURL(image)
 
   const title = metaTitle ? metaTitle + ' | PinNepal' : 'PinNepal'
-  const pathPrefix = isDestination ? '/destinations' : '/blog'
+  const pathPrefix = isDestination ? '/destinations' : isTourPackage ? '/tour-packages' : '/blog'
 
   return {
     description: description || undefined,

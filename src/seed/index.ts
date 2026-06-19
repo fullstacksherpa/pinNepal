@@ -8,6 +8,7 @@ import {
   districtSeedData,
   provinceSeedData,
 } from './destinationGeography'
+import { seedTourPackageCategories } from './tourPackageCategories'
 
 const adminUser = {
   email: 'og@gmail.com',
@@ -205,9 +206,12 @@ const seedDestinationGeography = async () => {
 }
 
 const run = async () => {
+  const payload = await getPayload({ config: configPromise })
+
   await seedAdminUser()
   await seedBlogCategories()
   await seedDestinationGeography()
+  await seedTourPackageCategories(payload)
 }
 
 run()
