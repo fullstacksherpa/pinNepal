@@ -29,7 +29,7 @@ export default function Page() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg">
-                <Link href="/blog">Explore stories</Link>
+                <Link href="/destinations">Explore destinations</Link>
               </Button>
               <Button
                 asChild
@@ -37,7 +37,7 @@ export default function Page() {
                 size="lg"
                 variant="outline"
               >
-                <Link href="/search">Search routes</Link>
+                <Link href="/blog">Read travel stories</Link>
               </Button>
             </div>
           </div>

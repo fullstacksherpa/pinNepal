@@ -11,4 +11,9 @@ test.describe('Frontend', () => {
     await page.goto('http://localhost:3000/blog/category')
     await expect(page.locator('h1').first()).toHaveText('Blog Categories')
   })
+
+  test('can load destination category index', async ({ page }) => {
+    await page.goto('http://localhost:3000/destinations/category')
+    await expect(page.locator('h1').first()).toHaveText('Destination Categories')
+  })
 })

@@ -5,6 +5,10 @@ import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 import { BlogCategories } from './collections/BlogCategories'
 import { Blogs } from './collections/Blogs'
+import { DestinationCategories } from './collections/DestinationCategories'
+import { Destinations } from './collections/Destinations'
+import { Districts } from './collections/Districts'
+import { Provinces } from './collections/Provinces'
 import { Users } from './collections/Users'
 
 import { Media } from './collections/Media'
@@ -36,7 +40,16 @@ export default buildConfig({
       ssl: { rejectUnauthorized: false },
     },
   }),
-  collections: [Blogs, BlogCategories, Media, Users],
+  collections: [
+    Blogs,
+    BlogCategories,
+    Destinations,
+    DestinationCategories,
+    Districts,
+    Provinces,
+    Media,
+    Users,
+  ],
   cors: [getServerSideURL()].filter(Boolean),
   plugins,
   secret: process.env.PAYLOAD_SECRET as string,

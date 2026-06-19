@@ -69,6 +69,10 @@ export interface Config {
   collections: {
     blogs: Blog;
     'blog-categories': BlogCategory;
+    destinations: Destination;
+    'destination-categories': DestinationCategory;
+    districts: District;
+    provinces: Province;
     media: Media;
     users: User;
     redirects: Redirect;
@@ -88,6 +92,10 @@ export interface Config {
   collectionsSelect: {
     blogs: BlogsSelect<false> | BlogsSelect<true>;
     'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
+    destinations: DestinationsSelect<false> | DestinationsSelect<true>;
+    'destination-categories': DestinationCategoriesSelect<false> | DestinationCategoriesSelect<true>;
+    districts: DistrictsSelect<false> | DistrictsSelect<true>;
+    provinces: ProvincesSelect<false> | ProvincesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
@@ -304,6 +312,130 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "destinations".
+ */
+export interface Destination {
+  id: number;
+  name: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  summary: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  district: number | District;
+  categories?: (number | DestinationCategory)[] | null;
+  heroImage: number | Media;
+  gallery?:
+    | {
+        image?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  bestTimeToVisit?: ('Spring' | 'Summer/Monsoon' | 'Autumn' | 'Winter')[] | null;
+  recommendedDuration?: string | null;
+  difficulty?: ('Easy' | 'Moderate' | 'Hard' | 'Strenuous') | null;
+  /**
+   * Highest elevation in meters
+   */
+  altitude?: number | null;
+  /**
+   * @minItems 2
+   * @maxItems 2
+   */
+  location?: [number, number] | null;
+  thingsToDo?:
+    | {
+        activity?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  howToGetThere?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "districts".
+ */
+export interface District {
+  id: number;
+  name: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  province: number | Province;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "provinces".
+ */
+export interface Province {
+  id: number;
+  name: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "destination-categories".
+ */
+export interface DestinationCategory {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -314,10 +446,15 @@ export interface Redirect {
   from: string;
   to?: {
     type?: ('reference' | 'custom') | null;
-    reference?: {
-      relationTo: 'blogs';
-      value: number | Blog;
-    } | null;
+    reference?:
+      | ({
+          relationTo: 'blogs';
+          value: number | Blog;
+        } | null)
+      | ({
+          relationTo: 'destinations';
+          value: number | Destination;
+        } | null);
     url?: string | null;
   };
   updatedAt: string;
@@ -479,6 +616,22 @@ export interface PayloadLockedDocument {
         value: number | BlogCategory;
       } | null)
     | ({
+        relationTo: 'destinations';
+        value: number | Destination;
+      } | null)
+    | ({
+        relationTo: 'destination-categories';
+        value: number | DestinationCategory;
+      } | null)
+    | ({
+        relationTo: 'districts';
+        value: number | District;
+      } | null)
+    | ({
+        relationTo: 'provinces';
+        value: number | Province;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -585,6 +738,81 @@ export interface BlogCategoriesSelect<T extends boolean = true> {
   image?: T;
   metaTitle?: T;
   metaDescription?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "destinations_select".
+ */
+export interface DestinationsSelect<T extends boolean = true> {
+  name?: T;
+  generateSlug?: T;
+  slug?: T;
+  summary?: T;
+  content?: T;
+  district?: T;
+  categories?: T;
+  heroImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  bestTimeToVisit?: T;
+  recommendedDuration?: T;
+  difficulty?: T;
+  altitude?: T;
+  location?: T;
+  thingsToDo?:
+    | T
+    | {
+        activity?: T;
+        id?: T;
+      };
+  howToGetThere?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "destination-categories_select".
+ */
+export interface DestinationCategoriesSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "districts_select".
+ */
+export interface DistrictsSelect<T extends boolean = true> {
+  name?: T;
+  generateSlug?: T;
+  slug?: T;
+  province?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "provinces_select".
+ */
+export interface ProvincesSelect<T extends boolean = true> {
+  name?: T;
+  generateSlug?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -780,10 +1008,15 @@ export interface TaskSchedulePublish {
   input: {
     type?: ('publish' | 'unpublish') | null;
     locale?: string | null;
-    doc?: {
-      relationTo: 'blogs';
-      value: number | Blog;
-    } | null;
+    doc?:
+      | ({
+          relationTo: 'blogs';
+          value: number | Blog;
+        } | null)
+      | ({
+          relationTo: 'destinations';
+          value: number | Destination;
+        } | null);
     global?: string | null;
     user?: (number | null) | User;
   };
