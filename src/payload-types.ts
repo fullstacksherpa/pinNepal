@@ -73,6 +73,7 @@ export interface Config {
     'destination-categories': DestinationCategory;
     'tour-packages': TourPackage;
     'tour-package-categories': TourPackageCategory;
+    faqs: Faq;
     districts: District;
     provinces: Province;
     media: Media;
@@ -98,6 +99,7 @@ export interface Config {
     'destination-categories': DestinationCategoriesSelect<false> | DestinationCategoriesSelect<true>;
     'tour-packages': TourPackagesSelect<false> | TourPackagesSelect<true>;
     'tour-package-categories': TourPackageCategoriesSelect<false> | TourPackageCategoriesSelect<true>;
+    faqs: FaqsSelect<false> | FaqsSelect<true>;
     districts: DistrictsSelect<false> | DistrictsSelect<true>;
     provinces: ProvincesSelect<false> | ProvincesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -669,6 +671,19 @@ export interface TourPackageCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: number;
+  question: string;
+  answer: string;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -863,6 +878,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tour-package-categories';
         value: number | TourPackageCategory;
+      } | null)
+    | ({
+        relationTo: 'faqs';
+        value: number | Faq;
       } | null)
     | ({
         relationTo: 'districts';
@@ -1205,6 +1224,18 @@ export interface TourPackageCategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs_select".
+ */
+export interface FaqsSelect<T extends boolean = true> {
+  question?: T;
+  answer?: T;
+  sortOrder?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "districts_select".
  */
 export interface DistrictsSelect<T extends boolean = true> {
@@ -1430,6 +1461,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'tour-packages';
           value: number | TourPackage;
+        } | null)
+      | ({
+          relationTo: 'faqs';
+          value: number | Faq;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

@@ -8,6 +8,7 @@ import { Blogs } from './collections/Blogs'
 import { DestinationCategories } from './collections/DestinationCategories'
 import { Destinations } from './collections/Destinations'
 import { Districts } from './collections/Districts'
+import { FAQs } from './collections/FAQs'
 import { Provinces } from './collections/Provinces'
 import { TourPackageCategories } from './collections/TourPackageCategories'
 import { TourPackages } from './collections/TourPackages'
@@ -49,6 +50,7 @@ export default buildConfig({
     DestinationCategories,
     TourPackages,
     TourPackageCategories,
+    FAQs,
     Districts,
     Provinces,
     Media,
