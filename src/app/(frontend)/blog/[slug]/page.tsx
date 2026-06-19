@@ -64,7 +64,7 @@ export default async function Blog({ params: paramsPromise }: Args) {
 
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
-          <RichText className="max-w-[48rem] mx-auto" data={blog.content} enableGutter={false} />
+          <RichText className="max-w-3xl mx-auto" data={blog.content} enableGutter={false} />
           {blog.relatedBlogs && blog.relatedBlogs.length > 0 && (
             <RelatedBlogs
               className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
