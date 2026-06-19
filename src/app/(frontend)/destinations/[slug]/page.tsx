@@ -55,15 +55,11 @@ export default async function Destination({ params: paramsPromise }: Args) {
 
       <div className="container pt-12">
         {destination.content && (
-          <RichText
-            className="max-w-[48rem] mx-auto"
-            data={destination.content}
-            enableGutter={false}
-          />
+          <RichText className="max-w-3xl mx-auto" data={destination.content} enableGutter={false} />
         )}
 
         {destination.thingsToDo && destination.thingsToDo.length > 0 && (
-          <section className="mx-auto mt-12 max-w-[48rem]">
+          <section className="mx-auto mt-12 max-w-3xl">
             <h2 className="text-3xl font-medium">Things to do</h2>
             <ul className="mt-6 list-disc space-y-3 pl-6">
               {destination.thingsToDo.map((item) =>
@@ -75,11 +71,11 @@ export default async function Destination({ params: paramsPromise }: Args) {
 
         {destination.howToGetThere && (
           <section className="mt-12">
-            <div className="mx-auto mb-6 max-w-[48rem]">
+            <div className="mx-auto mb-6 max-w-3xl">
               <h2 className="text-3xl font-medium">How to get there</h2>
             </div>
             <RichText
-              className="max-w-[48rem] mx-auto"
+              className="max-w-3xl mx-auto"
               data={destination.howToGetThere}
               enableGutter={false}
             />
@@ -88,7 +84,7 @@ export default async function Destination({ params: paramsPromise }: Args) {
 
         {galleryImages.length > 0 && (
           <section className="mt-12">
-            <div className="mx-auto mb-6 max-w-[48rem]">
+            <div className="mx-auto mb-6 max-w-3xl">
               <h2 className="text-3xl font-medium">Gallery</h2>
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
