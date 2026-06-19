@@ -71,6 +71,8 @@ export interface Config {
     'blog-categories': BlogCategory;
     destinations: Destination;
     'destination-categories': DestinationCategory;
+    'tour-packages': TourPackage;
+    'tour-package-categories': TourPackageCategory;
     districts: District;
     provinces: Province;
     media: Media;
@@ -94,6 +96,8 @@ export interface Config {
     'blog-categories': BlogCategoriesSelect<false> | BlogCategoriesSelect<true>;
     destinations: DestinationsSelect<false> | DestinationsSelect<true>;
     'destination-categories': DestinationCategoriesSelect<false> | DestinationCategoriesSelect<true>;
+    'tour-packages': TourPackagesSelect<false> | TourPackagesSelect<true>;
+    'tour-package-categories': TourPackageCategoriesSelect<false> | TourPackageCategoriesSelect<true>;
     districts: DistrictsSelect<false> | DistrictsSelect<true>;
     provinces: ProvincesSelect<false> | ProvincesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -436,6 +440,235 @@ export interface DestinationCategory {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-packages".
+ */
+export interface TourPackage {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  tagline?: string | null;
+  /**
+   * Long-form introduction shown near the top of the package detail page.
+   */
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  coverImage: number | Media;
+  gallery?:
+    | {
+        image?: (number | null) | Media;
+        caption?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  startLocation: string;
+  endLocation: string;
+  /**
+   * Total trip length including arrival and departure days.
+   */
+  totalDays: number;
+  totalNights?: number | null;
+  /**
+   * Typical number of guests per departure.
+   */
+  averageGroupSize?: number | null;
+  minGroupSize?: number | null;
+  maxGroupSize?: number | null;
+  difficultyLevel: 'EASY' | 'EASY_MODERATE' | 'MODERATE' | 'MODERATE_CHALLENGING' | 'CHALLENGING' | 'EXTREME';
+  difficultyLabel?: string | null;
+  difficultyDescription?: string | null;
+  currency?: ('NPR' | 'USD' | 'EUR' | 'GBP' | 'AUD' | 'NZD') | null;
+  /**
+   * Base price per person in the selected currency.
+   */
+  pricePerPerson: number;
+  taxesIncluded?: boolean | null;
+  /**
+   * Extra cost for single-occupancy rooms.
+   */
+  singleSupplement?: number | null;
+  depositAmount?: number | null;
+  /**
+   * Include country code. Used for the Chat to book button.
+   */
+  whatsappNumber?: string | null;
+  whatsappPrefillMessage?: string | null;
+  /**
+   * Average rating out of 5.
+   */
+  rating?: number | null;
+  reviewCount?: number | null;
+  /**
+   * Popular places and activities shown in the highlights grid.
+   */
+  tripHighlights?:
+    | {
+        name: string;
+        category?: ('hiking' | 'biking' | 'kayaking' | 'walking' | 'cruise' | 'cultural' | 'wildlife' | 'other') | null;
+        image?: (number | null) | Media;
+        shortDescription?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Day-by-day plan. Enable options for days with variants.
+   */
+  itinerary?:
+    | {
+        day: number;
+        title: string;
+        image?: (number | null) | Media;
+        description?: string | null;
+        /**
+         * Short bullet highlights for this day.
+         */
+        highlights?:
+          | {
+              highlight?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        accommodation?: string | null;
+        meals?: {
+          breakfast?: boolean | null;
+          lunch?: boolean | null;
+          dinner?: boolean | null;
+        };
+        activity?: {
+          type?: ('hiking' | 'biking' | 'kayaking' | 'walking' | 'cruise' | 'driving' | 'other') | null;
+          durationHoursMin?: number | null;
+          durationHoursMax?: number | null;
+          distanceKm?: number | null;
+          elevationGainM?: number | null;
+          elevationLossM?: number | null;
+        };
+        /**
+         * Shows optional activities instead of core activity stats.
+         */
+        isFreeDay?: boolean | null;
+        optionalActivities?:
+          | {
+              activity?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Enable when guests choose between variants.
+         */
+        hasOptions?: boolean | null;
+        /**
+         * Define each variant: comfort, challenging, private, etc.
+         */
+        options?:
+          | {
+              optionId: string;
+              optionLabel?: string | null;
+              optionTitle?: string | null;
+              difficultyLevel?:
+                | ('EASY' | 'EASY_MODERATE' | 'MODERATE' | 'MODERATE_CHALLENGING' | 'CHALLENGING' | 'EXTREME')
+                | null;
+              description?: string | null;
+              accommodation?: string | null;
+              activity?: {
+                type?: ('hiking' | 'biking' | 'kayaking' | 'walking' | 'cruise' | 'driving' | 'other') | null;
+                durationHoursMin?: number | null;
+                durationHoursMax?: number | null;
+                distanceKm?: number | null;
+                elevationGainM?: number | null;
+                elevationLossM?: number | null;
+              };
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  inclusions?:
+    | {
+        item: string;
+        id?: string | null;
+      }[]
+    | null;
+  exclusions?:
+    | {
+        item: string;
+        id?: string | null;
+      }[]
+    | null;
+  licencesAndPermits?:
+    | {
+        name: string;
+        issuedBy?: string | null;
+        includedInPrice?: boolean | null;
+        notes?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  faqs?:
+    | {
+        question: string;
+        answer: string;
+        category?:
+          | ('logistics' | 'fitness' | 'accommodation' | 'activity' | 'guides' | 'booking' | 'preparation' | 'other')
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  tags?:
+    | {
+        tag?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  region?: (number | null) | District;
+  categories?: (number | TourPackageCategory)[] | null;
+  /**
+   * Show similar trips at the bottom of this package page.
+   */
+  relatedPackages?: (number | TourPackage)[] | null;
+  availabilityStatus?: ('active' | 'archived') | null;
+  seo?: {
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    ogImage?: (number | null) | Media;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-package-categories".
+ */
+export interface TourPackageCategory {
+  id: number;
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -624,6 +857,14 @@ export interface PayloadLockedDocument {
         value: number | DestinationCategory;
       } | null)
     | ({
+        relationTo: 'tour-packages';
+        value: number | TourPackage;
+      } | null)
+    | ({
+        relationTo: 'tour-package-categories';
+        value: number | TourPackageCategory;
+      } | null)
+    | ({
         relationTo: 'districts';
         value: number | District;
       } | null)
@@ -787,6 +1028,175 @@ export interface DestinationsSelect<T extends boolean = true> {
  * via the `definition` "destination-categories_select".
  */
 export interface DestinationCategoriesSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-packages_select".
+ */
+export interface TourPackagesSelect<T extends boolean = true> {
+  title?: T;
+  generateSlug?: T;
+  slug?: T;
+  tagline?: T;
+  description?: T;
+  coverImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        id?: T;
+      };
+  startLocation?: T;
+  endLocation?: T;
+  totalDays?: T;
+  totalNights?: T;
+  averageGroupSize?: T;
+  minGroupSize?: T;
+  maxGroupSize?: T;
+  difficultyLevel?: T;
+  difficultyLabel?: T;
+  difficultyDescription?: T;
+  currency?: T;
+  pricePerPerson?: T;
+  taxesIncluded?: T;
+  singleSupplement?: T;
+  depositAmount?: T;
+  whatsappNumber?: T;
+  whatsappPrefillMessage?: T;
+  rating?: T;
+  reviewCount?: T;
+  tripHighlights?:
+    | T
+    | {
+        name?: T;
+        category?: T;
+        image?: T;
+        shortDescription?: T;
+        id?: T;
+      };
+  itinerary?:
+    | T
+    | {
+        day?: T;
+        title?: T;
+        image?: T;
+        description?: T;
+        highlights?:
+          | T
+          | {
+              highlight?: T;
+              id?: T;
+            };
+        accommodation?: T;
+        meals?:
+          | T
+          | {
+              breakfast?: T;
+              lunch?: T;
+              dinner?: T;
+            };
+        activity?:
+          | T
+          | {
+              type?: T;
+              durationHoursMin?: T;
+              durationHoursMax?: T;
+              distanceKm?: T;
+              elevationGainM?: T;
+              elevationLossM?: T;
+            };
+        isFreeDay?: T;
+        optionalActivities?:
+          | T
+          | {
+              activity?: T;
+              id?: T;
+            };
+        hasOptions?: T;
+        options?:
+          | T
+          | {
+              optionId?: T;
+              optionLabel?: T;
+              optionTitle?: T;
+              difficultyLevel?: T;
+              description?: T;
+              accommodation?: T;
+              activity?:
+                | T
+                | {
+                    type?: T;
+                    durationHoursMin?: T;
+                    durationHoursMax?: T;
+                    distanceKm?: T;
+                    elevationGainM?: T;
+                    elevationLossM?: T;
+                  };
+              id?: T;
+            };
+        id?: T;
+      };
+  inclusions?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  exclusions?:
+    | T
+    | {
+        item?: T;
+        id?: T;
+      };
+  licencesAndPermits?:
+    | T
+    | {
+        name?: T;
+        issuedBy?: T;
+        includedInPrice?: T;
+        notes?: T;
+        id?: T;
+      };
+  faqs?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        category?: T;
+        id?: T;
+      };
+  tags?:
+    | T
+    | {
+        tag?: T;
+        id?: T;
+      };
+  region?: T;
+  categories?: T;
+  relatedPackages?: T;
+  availabilityStatus?: T;
+  seo?:
+    | T
+    | {
+        metaTitle?: T;
+        metaDescription?: T;
+        ogImage?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tour-package-categories_select".
+ */
+export interface TourPackageCategoriesSelect<T extends boolean = true> {
   title?: T;
   generateSlug?: T;
   slug?: T;
@@ -1016,6 +1426,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'destinations';
           value: number | Destination;
+        } | null)
+      | ({
+          relationTo: 'tour-packages';
+          value: number | TourPackage;
         } | null);
     global?: string | null;
     user?: (number | null) | User;

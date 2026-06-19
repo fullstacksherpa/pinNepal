@@ -11,7 +11,13 @@ import { beforeSyncWithSearch } from '@/search/beforeSync'
 import type { Blog, Destination } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 
-type SEOCollection = Blog | Destination
+type SEOCollection =
+  | Blog
+  | Destination
+  | {
+      slug?: string | null
+      title?: string | null
+    }
 
 const generateTitle: GenerateTitle<SEOCollection> = ({ doc }) => {
   if (!doc) return 'PinNepal'
@@ -21,12 +27,20 @@ const generateTitle: GenerateTitle<SEOCollection> = ({ doc }) => {
   return title ? `${title} | PinNepal` : 'PinNepal'
 }
 
-const generateURL: GenerateURL<SEOCollection> = ({ doc }) => {
+const generateURL: GenerateURL<SEOCollection> = ({ collectionConfig, doc }) => {
   const url = getServerSideURL()
 
   if (!doc?.slug) return url
 
-  return 'name' in doc ? `${url}/destinations/${doc.slug}` : `${url}/blog/${doc.slug}`
+  if (collectionConfig?.slug === 'destinations') {
+    return `${url}/destinations/${doc.slug}`
+  }
+
+  if (collectionConfig?.slug === 'tour-packages') {
+    return `${url}/tour-packages/${doc.slug}`
+  }
+
+  return `${url}/blog/${doc.slug}`
 }
 
 export const plugins: Plugin[] = [
