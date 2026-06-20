@@ -7,22 +7,40 @@ const SITE_URL =
 module.exports = {
   siteUrl: SITE_URL,
   generateRobotsTxt: true,
+
   exclude: [
     '/blog-sitemap.xml',
     '/blogs-sitemap.xml',
     '/destinations-sitemap.xml',
-    '/*',
-    '/blog/*',
-    '/blogs/*',
-    '/destinations/*',
+    '/tour-packages-sitemap.xml',
+    '/admin',
+    '/admin/*',
+    '/api/*',
+    '/next/preview',
+    '/next/exit-preview',
   ],
+
+  // THIS is what was missing — top-level, not inside robotsTxtOptions
+  additionalSitemaps: [
+    `${SITE_URL}/blog-sitemap.xml`,
+    `${SITE_URL}/destinations-sitemap.xml`,
+    `${SITE_URL}/tour-packages-sitemap.xml`,
+  ],
+
   robotsTxtOptions: {
     policies: [
       {
         userAgent: '*',
-        disallow: '/admin/*',
+        allow: '/',
+        disallow: ['/admin', '/admin/*', '/api/*', '/next/preview', '/next/exit-preview'],
       },
     ],
-    additionalSitemaps: [`${SITE_URL}/blog-sitemap.xml`, `${SITE_URL}/destinations-sitemap.xml`],
+    // Keep here too so robots.txt also references them
+    additionalSitemaps: [
+      `${SITE_URL}/sitemap.xml`,
+      `${SITE_URL}/blog-sitemap.xml`,
+      `${SITE_URL}/destinations-sitemap.xml`,
+      `${SITE_URL}/tour-packages-sitemap.xml`,
+    ],
   },
 }
