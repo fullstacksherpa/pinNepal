@@ -6,8 +6,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion'
+import { FAQ_CACHE_KEY, FAQ_CACHE_TAG } from '@/constants'
 import configPromise from '@payload-config'
 import { HelpCircle } from 'lucide-react'
+import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 
 type FAQItem = {
@@ -92,6 +94,19 @@ export const loadFAQItems = async (payload: FAQPayloadClient): Promise<FAQItem[]
   }
 }
 
+export const getCachedFAQs = unstable_cache(
+  async () => {
+    const payload = (await getPayload({ config: configPromise })) as FAQPayloadClient
+
+    return loadFAQItems(payload)
+  },
+  [FAQ_CACHE_KEY],
+  {
+    revalidate: false,
+    tags: [FAQ_CACHE_TAG],
+  },
+)
+
 export const FAQSectionContent: React.FC<{
   faqs: FAQItem[]
 }> = ({ faqs }) => {
@@ -142,8 +157,7 @@ export const FAQSectionContent: React.FC<{
 }
 
 export async function FAQSection() {
-  const payload = (await getPayload({ config: configPromise })) as FAQPayloadClient
-  const validFaqs = await loadFAQItems(payload)
+  const validFaqs = await getCachedFAQs()
 
   return <FAQSectionContent faqs={validFaqs} />
 }

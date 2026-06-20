@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { admins, adminsOrEditors } from '@/access/roles'
+import { revalidateFAQs, revalidateFAQsDelete } from './FAQs/hooks/revalidateFAQs'
 
 export const FAQs: CollectionConfig = {
   slug: 'faqs',
@@ -26,6 +27,10 @@ export const FAQs: CollectionConfig = {
     sortOrder: true,
   },
   defaultSort: 'sortOrder',
+  hooks: {
+    afterChange: [revalidateFAQs],
+    afterDelete: [revalidateFAQsDelete],
+  },
   fields: [
     {
       name: 'question',

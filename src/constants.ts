@@ -12,3 +12,7 @@ export const headerNavItems: NavItem[] = [
 ]
 
 export const footerNavItems: NavItem[] = headerNavItems
+
+export const FAQ_CACHE_KEY = 'faq-cache-key'
+export const FAQ_CACHE_TAG = 'faqs'
+export const FAQ_CACHE_REVALIDATE_PROFILE = 'max'
