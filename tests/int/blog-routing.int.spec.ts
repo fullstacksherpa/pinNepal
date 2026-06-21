@@ -69,6 +69,9 @@ describe('blog routing', () => {
     if (categoryID) {
       await payload.delete({
         collection: 'blog-categories',
+        context: {
+          disableRevalidate: true,
+        },
         id: categoryID,
       })
       categoryID = null
@@ -100,6 +103,9 @@ describe('blog routing', () => {
 
     const category = await payload.create({
       collection: 'blog-categories',
+      context: {
+        disableRevalidate: true,
+      },
       data: {
         title: `Vitest Category ${suffix}`,
         slug,

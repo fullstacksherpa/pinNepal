@@ -39,6 +39,9 @@ describe('tour package routing', () => {
     if (createdCategoryID) {
       await payload.delete({
         collection: 'tour-package-categories',
+        context: {
+          disableRevalidate: true,
+        },
         id: createdCategoryID,
       })
       createdCategoryID = null
@@ -61,6 +64,9 @@ describe('tour package routing', () => {
     if (!existingCategory.docs[0]) {
       const createdCategory = await payload.create({
         collection: 'tour-package-categories',
+        context: {
+          disableRevalidate: true,
+        },
         data: {
           slug: 'trekking-expeditions',
           title: 'Trekking & Expeditions',

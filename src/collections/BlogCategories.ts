@@ -2,6 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
 import { admins, adminsOrEditors } from '../access/roles'
+import {
+  revalidateBlogCategory,
+  revalidateBlogCategoryDelete,
+} from './BlogCategories/hooks/revalidateBlogCategory'
 import { slugField } from 'payload'
 
 export const BlogCategories: CollectionConfig<'blog-categories'> = {
@@ -20,6 +24,10 @@ export const BlogCategories: CollectionConfig<'blog-categories'> = {
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     useAsTitle: 'title',
+  },
+  hooks: {
+    afterChange: [revalidateBlogCategory],
+    afterDelete: [revalidateBlogCategoryDelete],
   },
   fields: [
     {

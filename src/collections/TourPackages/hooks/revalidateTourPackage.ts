@@ -1,6 +1,6 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
 
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidateTourPackageContent } from '@/utilities/revalidateContent'
 
 type RevalidatableTourPackage = {
   availabilityStatus?: string | null
@@ -10,16 +10,6 @@ type RevalidatableTourPackage = {
 
 const isPublicTourPackage = (doc?: RevalidatableTourPackage | null) => {
   return doc?._status === 'published' && doc?.availabilityStatus === 'active'
-}
-
-const revalidateTourPackagePaths = (slug?: string | null) => {
-  revalidatePath('/tour-packages')
-  revalidatePath('/tour-packages/category')
-  revalidateTag('tour-packages-sitemap', 'max')
-
-  if (slug) {
-    revalidatePath(`/tour-packages/${slug}`)
-  }
 }
 
 export const revalidateTourPackage: CollectionAfterChangeHook = ({
@@ -33,14 +23,18 @@ export const revalidateTourPackage: CollectionAfterChangeHook = ({
 
     if (isPublicTourPackage(tourPackage)) {
       payload.logger.info(`Revalidating tour package at path: /tour-packages/${tourPackage.slug}`)
-      revalidateTourPackagePaths(tourPackage.slug)
+      revalidateTourPackageContent(tourPackage.slug)
     }
 
-    if (isPublicTourPackage(previousTourPackage) && !isPublicTourPackage(tourPackage)) {
+    if (
+      previousTourPackage &&
+      isPublicTourPackage(previousTourPackage) &&
+      (!isPublicTourPackage(tourPackage) || previousTourPackage.slug !== tourPackage.slug)
+    ) {
       payload.logger.info(
         `Revalidating old tour package at path: /tour-packages/${previousTourPackage?.slug}`,
       )
-      revalidateTourPackagePaths(previousTourPackage?.slug)
+      revalidateTourPackageContent(previousTourPackage?.slug)
     }
   }
 
@@ -51,7 +45,7 @@ export const revalidateDelete: CollectionAfterDeleteHook = ({ doc, req: { contex
   if (!context.disableRevalidate) {
     const tourPackage = doc as RevalidatableTourPackage
 
-    revalidateTourPackagePaths(tourPackage?.slug)
+    revalidateTourPackageContent(tourPackage?.slug)
   }
 
   return doc

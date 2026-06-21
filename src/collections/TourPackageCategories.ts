@@ -2,6 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
 import { admins, adminsOrEditors } from '../access/roles'
+import {
+  revalidateTourPackageCategory,
+  revalidateTourPackageCategoryDelete,
+} from './TourPackageCategories/hooks/revalidateTourPackageCategory'
 import { slugField } from 'payload'
 
 export const TourPackageCategories: CollectionConfig = {
@@ -21,6 +25,10 @@ export const TourPackageCategories: CollectionConfig = {
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     useAsTitle: 'title',
+  },
+  hooks: {
+    afterChange: [revalidateTourPackageCategory],
+    afterDelete: [revalidateTourPackageCategoryDelete],
   },
   fields: [
     {

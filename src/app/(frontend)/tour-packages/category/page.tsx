@@ -6,7 +6,6 @@ import Link from 'next/link'
 import React from 'react'
 
 export const dynamic = 'force-static'
-export const revalidate = 600
 
 export default async function TourPackageCategoryIndexPage() {
   const payload = await getPayload({ config: configPromise })

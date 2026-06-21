@@ -18,8 +18,6 @@ type Args = {
   }>
 }
 
-export const revalidate = 600
-
 export default async function BlogCategoryPage({ params: paramsPromise }: Args) {
   const { categorySlug } = await paramsPromise
   const decodedCategorySlug = decodeURIComponent(categorySlug)
