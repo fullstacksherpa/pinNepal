@@ -76,6 +76,9 @@ const seedBlogCategories = async () => {
     if (existingCategory) {
       await payload.update({
         collection: 'blog-categories',
+        context: {
+          disableRevalidate: true,
+        },
         id: existingCategory.id,
         data,
       })
@@ -84,6 +87,9 @@ const seedBlogCategories = async () => {
 
     await payload.create({
       collection: 'blog-categories',
+      context: {
+        disableRevalidate: true,
+      },
       data,
     })
   }
@@ -192,6 +198,9 @@ const seedDestinationGeography = async () => {
     if (existingCategory) {
       await payload.update({
         collection: 'destination-categories',
+        context: {
+          disableRevalidate: true,
+        },
         id: existingCategory.id,
         data,
       })
@@ -200,6 +209,9 @@ const seedDestinationGeography = async () => {
 
     await payload.create({
       collection: 'destination-categories',
+      context: {
+        disableRevalidate: true,
+      },
       data,
     })
   }

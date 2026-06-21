@@ -1,8 +1,12 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
 
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidateBlogContent } from '@/utilities/revalidateContent'
 
 import type { Blog } from '../../../payload-types'
+
+const isPublishedBlog = (doc?: Pick<Blog, '_status'> | null) => {
+  return doc?._status === 'published'
+}
 
 export const revalidateBlog: CollectionAfterChangeHook<Blog> = ({
   doc,
@@ -10,22 +14,20 @@ export const revalidateBlog: CollectionAfterChangeHook<Blog> = ({
   req: { payload, context },
 }) => {
   if (!context.disableRevalidate) {
-    if (doc._status === 'published') {
+    if (isPublishedBlog(doc)) {
       const path = `/blog/${doc.slug}`
 
       payload.logger.info(`Revalidating blog at path: ${path}`)
 
-      revalidatePath(path)
-      revalidateTag('blog-sitemap', 'max')
+      revalidateBlogContent(doc.slug)
     }
 
-    if (previousDoc?._status === 'published' && doc._status !== 'published') {
+    if (isPublishedBlog(previousDoc) && (!isPublishedBlog(doc) || previousDoc.slug !== doc.slug)) {
       const oldPath = `/blog/${previousDoc.slug}`
 
       payload.logger.info(`Revalidating old blog at path: ${oldPath}`)
 
-      revalidatePath(oldPath)
-      revalidateTag('blog-sitemap', 'max')
+      revalidateBlogContent(previousDoc.slug)
     }
   }
   return doc
@@ -33,10 +35,7 @@ export const revalidateBlog: CollectionAfterChangeHook<Blog> = ({
 
 export const revalidateDelete: CollectionAfterDeleteHook<Blog> = ({ doc, req: { context } }) => {
   if (!context.disableRevalidate) {
-    const path = `/blog/${doc?.slug}`
-
-    revalidatePath(path)
-    revalidateTag('blog-sitemap', 'max')
+    revalidateBlogContent(doc?.slug)
   }
 
   return doc

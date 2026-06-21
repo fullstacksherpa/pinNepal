@@ -1,20 +1,14 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
 
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidateDestinationContent } from '@/utilities/revalidateContent'
 
 type RevalidatableDestination = {
   slug?: string | null
   _status?: string | null
 }
 
-const revalidateDestinationPaths = (slug?: string | null) => {
-  revalidatePath('/destinations')
-  revalidatePath('/destinations/category')
-  revalidateTag('destinations-sitemap', 'max')
-
-  if (slug) {
-    revalidatePath(`/destinations/${slug}`)
-  }
+const isPublishedDestination = (doc?: RevalidatableDestination | null) => {
+  return doc?._status === 'published'
 }
 
 export const revalidateDestination: CollectionAfterChangeHook = ({
@@ -26,16 +20,20 @@ export const revalidateDestination: CollectionAfterChangeHook = ({
     const destination = doc as RevalidatableDestination
     const previousDestination = previousDoc as RevalidatableDestination | undefined
 
-    if (destination._status === 'published') {
+    if (isPublishedDestination(destination)) {
       payload.logger.info(`Revalidating destination at path: /destinations/${destination.slug}`)
-      revalidateDestinationPaths(destination.slug)
+      revalidateDestinationContent(destination.slug)
     }
 
-    if (previousDestination?._status === 'published' && destination._status !== 'published') {
+    if (
+      previousDestination &&
+      isPublishedDestination(previousDestination) &&
+      (!isPublishedDestination(destination) || previousDestination.slug !== destination.slug)
+    ) {
       payload.logger.info(
         `Revalidating old destination at path: /destinations/${previousDestination.slug}`,
       )
-      revalidateDestinationPaths(previousDestination.slug)
+      revalidateDestinationContent(previousDestination.slug)
     }
   }
 
@@ -46,7 +44,7 @@ export const revalidateDelete: CollectionAfterDeleteHook = ({ doc, req: { contex
   if (!context.disableRevalidate) {
     const destination = doc as RevalidatableDestination
 
-    revalidateDestinationPaths(destination?.slug)
+    revalidateDestinationContent(destination?.slug)
   }
 
   return doc

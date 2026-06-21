@@ -8,8 +8,6 @@ import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
 import React from 'react'
 
-export const revalidate = 600
-
 type Args = {
   params: Promise<{
     pageNumber: string

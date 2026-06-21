@@ -9,8 +9,6 @@ import { getPayload } from 'payload'
 import { notFound } from 'next/navigation'
 import { queryTourPackages, TOUR_PACKAGES_PER_PAGE } from '../../category/[categorySlug]/queries'
 
-export const revalidate = 600
-
 type Args = {
   params: Promise<{
     pageNumber: string

@@ -19,8 +19,6 @@ type Args = {
   }>
 }
 
-export const revalidate = 600
-
 export default async function TourPackageCategoryPaginatedPage({ params: paramsPromise }: Args) {
   const { categorySlug, pageNumber } = await paramsPromise
   const sanitizedPageNumber = Number(pageNumber)

@@ -34,6 +34,9 @@ export const seedTourPackageCategories = async (payload: Payload) => {
     if (existingCategory) {
       await payload.update({
         collection: 'tour-package-categories',
+        context: {
+          disableRevalidate: true,
+        },
         id: existingCategory.id,
         data,
       })
@@ -42,6 +45,9 @@ export const seedTourPackageCategories = async (payload: Payload) => {
 
     await payload.create({
       collection: 'tour-package-categories',
+      context: {
+        disableRevalidate: true,
+      },
       data,
     })
   }

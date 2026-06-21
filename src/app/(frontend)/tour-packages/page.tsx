@@ -7,7 +7,6 @@ import { TourPackageArchive } from '@/components/TourPackageArchive'
 import { queryTourPackages, TOUR_PACKAGES_PER_PAGE } from './category/[categorySlug]/queries'
 
 export const dynamic = 'force-static'
-export const revalidate = 600
 
 export default async function TourPackagesPage() {
   const tourPackages = await queryTourPackages({ page: 1 })
