@@ -15,11 +15,13 @@ export default async function TourPackagesPage() {
     <main className="pb-24 pt-24">
       <div className="container mb-16">
         <div className="max-w-3xl">
-          <p className="text-sm font-medium uppercase tracking-[0.18em] text-[#B23A48]">
+          <p className="font-mono text-[0.64rem] uppercase tracking-[0.28em] text-[var(--pn-mist)]">
             Guided journeys across Nepal
           </p>
-          <h1 className="mt-3 text-5xl font-semibold leading-tight">Tour Packages</h1>
-          <p className="mt-5 text-lg leading-8 text-muted-foreground">
+          <h1 className="mt-3 font-serif text-5xl font-bold leading-tight text-[var(--pn-navy)]">
+            Tour Packages
+          </h1>
+          <p className="mt-5 text-lg leading-8 text-[var(--pn-navy)]">
             Compare multi-day treks, cultural routes, wildlife trips, and private adventures built
             around Nepal&apos;s trails, temples, and remote valleys.
           </p>

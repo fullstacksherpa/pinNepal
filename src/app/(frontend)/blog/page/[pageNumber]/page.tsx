@@ -43,8 +43,13 @@ export default async function Page({ params: paramsPromise }: Args) {
     <div className="pt-24 pb-24">
       <PageClient />
       <div className="container mb-16">
-        <div className="prose max-w-none">
-          <h1>Blogs</h1>
+        <div className="max-w-3xl">
+          <p className="font-mono text-[0.64rem] uppercase tracking-[0.28em] text-[var(--pn-mist)]">
+            Field notes and route guides
+          </p>
+          <h1 className="mt-3 font-serif text-5xl font-bold leading-tight text-[var(--pn-navy)]">
+            Stories
+          </h1>
         </div>
       </div>
 

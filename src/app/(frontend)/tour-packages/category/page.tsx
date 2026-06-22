@@ -25,11 +25,13 @@ export default async function TourPackageCategoryIndexPage() {
     <main className="pb-24 pt-24">
       <div className="container mb-14">
         <div className="max-w-3xl">
-          <p className="text-sm font-medium uppercase tracking-[0.18em] text-[#B23A48]">
+          <p className="font-mono text-[0.64rem] uppercase tracking-[0.28em] text-[var(--pn-mist)]">
             Travel styles
           </p>
-          <h1 className="mt-3 text-5xl font-semibold leading-tight">Tour Package Categories</h1>
-          <p className="mt-5 text-lg leading-8 text-muted-foreground">
+          <h1 className="mt-3 font-serif text-5xl font-bold leading-tight text-[var(--pn-navy)]">
+            Tour Package Categories
+          </h1>
+          <p className="mt-5 text-lg leading-8 text-[var(--pn-navy)]">
             Browse guided Nepal journeys by trip style, from trekking expeditions to cultural,
             wildlife, pilgrimage, and private itineraries.
           </p>
@@ -40,11 +42,13 @@ export default async function TourPackageCategoryIndexPage() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {categories.docs.map((category) => (
             <Link
-              className="rounded-lg border border-border bg-card p-5 transition-colors hover:bg-accent"
+              className="rounded-[var(--radius-card)] border border-[var(--pn-border)] bg-white p-5 transition-colors hover:bg-[var(--pn-sage-light)]"
               href={`/tour-packages/category/${category.slug}`}
               key={category.id}
             >
-              <span className="text-lg font-medium">{category.title}</span>
+              <span className="font-serif text-xl font-bold text-[var(--pn-navy)]">
+                {category.title}
+              </span>
             </Link>
           ))}
         </div>

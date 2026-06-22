@@ -34,9 +34,16 @@ export default async function DestinationsPage() {
   return (
     <main className="pt-24 pb-24">
       <div className="container mb-16">
-        <div className="prose max-w-none">
-          <h1>Destinations</h1>
-          <p>Explore places across Nepal by district, province, category, and travel style.</p>
+        <div className="max-w-3xl">
+          <p className="font-mono text-[0.64rem] uppercase tracking-[0.28em] text-[var(--pn-mist)]">
+            Places with route context
+          </p>
+          <h1 className="mt-3 font-serif text-5xl font-bold leading-tight text-[var(--pn-navy)]">
+            Destinations
+          </h1>
+          <p className="mt-5 text-lg leading-8 text-[var(--pn-navy)]">
+            Explore places across Nepal by district, province, category, and travel style.
+          </p>
         </div>
       </div>
 

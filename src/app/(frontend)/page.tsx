@@ -12,24 +12,25 @@ export default function Page() {
           fill
           priority
           sizes="100vw"
-          src="/media/image-hero1-1920x1080.webp"
+          src="/images/pinnepal-hero-1920x1080.webp"
+          unoptimized
         />
         <div className="absolute inset-0 bg-linear-to-t from-black via-black/35 to-black/15" />
         <div className="container relative flex min-h-[72vh] items-end pb-16 pt-32">
           <div className="max-w-3xl">
-            <p className="mb-4 text-sm font-medium uppercase tracking-[0.24em] text-white/75">
-              Routes, stories, and stays across Nepal
+            <p className="mb-4 font-mono text-[0.68rem] uppercase tracking-[0.28em] text-white/70">
+              Kathmandu to the high passes
             </p>
-            <h1 className="text-5xl font-semibold leading-[0.95] tracking-normal md:text-7xl">
-              Discover Nepal, one trail at a time
+            <h1 className="font-serif text-5xl font-bold leading-[0.98] tracking-normal text-white md:text-7xl">
+              Nepal routes planned by people who live here
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/85">
-              Find high-mountain routes, local travel ideas, and practical guides for planning your
-              next journey through Nepal.
+              Compare trekking routes, motorbike journeys, cultural stops, and practical field
+              notes from a local team that knows the roads beyond Kathmandu.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg">
-                <Link href="/destinations">Explore destinations</Link>
+                <Link href="/tour-packages">Browse Nepal packages</Link>
               </Button>
               <Button
                 asChild
@@ -37,26 +38,38 @@ export default function Page() {
                 size="lg"
                 variant="outline"
               >
-                <Link href="/blog">Read travel stories</Link>
+                <Link href="/blog">Read route guides</Link>
               </Button>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="border-b border-border bg-background py-12">
+      <section className="border-b border-[var(--pn-border)] bg-[var(--pn-snow)] py-12">
         <div className="container grid gap-6 md:grid-cols-3">
           <div>
-            <p className="text-sm uppercase tracking-[0.18em] text-muted-foreground">Hikes</p>
-            <p className="mt-2 text-2xl font-medium">Trail-first inspiration</p>
+            <p className="font-mono text-[0.64rem] uppercase tracking-[0.24em] text-[var(--pn-mist)]">
+              Treks
+            </p>
+            <p className="mt-2 font-serif text-2xl font-bold text-[var(--pn-navy)]">
+              Tea house routes with real elevations
+            </p>
           </div>
           <div>
-            <p className="text-sm uppercase tracking-[0.18em] text-muted-foreground">Places</p>
-            <p className="mt-2 text-2xl font-medium">Destinations with context</p>
+            <p className="font-mono text-[0.64rem] uppercase tracking-[0.24em] text-[var(--pn-mist)]">
+              Places
+            </p>
+            <p className="mt-2 font-serif text-2xl font-bold text-[var(--pn-navy)]">
+              Districts, valleys, and road access
+            </p>
           </div>
           <div>
-            <p className="text-sm uppercase tracking-[0.18em] text-muted-foreground">Trips</p>
-            <p className="mt-2 text-2xl font-medium">Ideas ready to shape into plans</p>
+            <p className="font-mono text-[0.64rem] uppercase tracking-[0.24em] text-[var(--pn-mist)]">
+              Rides
+            </p>
+            <p className="mt-2 font-serif text-2xl font-bold text-[var(--pn-navy)]">
+              Motorbike days from Kathmandu to Mustang
+            </p>
           </div>
         </div>
       </section>

@@ -53,9 +53,16 @@ export default async function DestinationCategoriesPage() {
   return (
     <main className="pt-24 pb-24">
       <div className="container mb-16">
-        <div className="prose max-w-none">
-          <h1>Destination Categories</h1>
-          <p>Browse Nepal destinations by travel style and experience.</p>
+        <div className="max-w-3xl">
+          <p className="font-mono text-[0.64rem] uppercase tracking-[0.28em] text-[var(--pn-mist)]">
+            Travel styles
+          </p>
+          <h1 className="mt-3 font-serif text-5xl font-bold leading-tight text-[var(--pn-navy)]">
+            Destination Categories
+          </h1>
+          <p className="mt-5 text-lg leading-8 text-[var(--pn-navy)]">
+            Browse Nepal destinations by travel style and experience.
+          </p>
         </div>
       </div>
 
@@ -68,16 +75,18 @@ export default async function DestinationCategoriesPage() {
 
             return (
               <Link
-                className="group col-span-4 rounded-lg border border-border bg-card p-6 transition-colors hover:bg-accent"
+                className="group col-span-4 rounded-[var(--radius-card)] border border-[var(--pn-border)] bg-white p-6 transition-colors hover:bg-[var(--pn-sage-light)]"
                 href={`/destinations/category/${category.slug}`}
                 key={category.id}
               >
                 <article>
-                  <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                  <p className="font-mono text-[0.64rem] uppercase tracking-[0.2em] text-[var(--pn-mist)]">
                     {destinationCount} {destinationCount === 1 ? 'destination' : 'destinations'}
                   </p>
-                  <h2 className="mt-4 text-2xl font-medium leading-tight">{category.title}</h2>
-                  <p className="mt-4 text-sm leading-6 text-muted-foreground">
+                  <h2 className="mt-4 font-serif text-2xl font-bold leading-tight text-[var(--pn-navy)]">
+                    {category.title}
+                  </h2>
+                  <p className="mt-4 text-sm leading-6 text-[var(--pn-body)]">
                     Explore places for {category.title.toLowerCase()} across Nepal.
                   </p>
                 </article>
