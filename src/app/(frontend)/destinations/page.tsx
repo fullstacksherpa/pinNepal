@@ -5,7 +5,6 @@ import { PageRange } from '@/components/PageRange'
 import { Pagination } from '@/components/Pagination'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
-import React from 'react'
 
 export const dynamic = 'force-static'
 
@@ -74,5 +73,6 @@ export default async function DestinationsPage() {
 export function generateMetadata(): Metadata {
   return {
     title: 'Destinations | PinNepal',
+    description: 'All the popular destinations in Nepal. Must visit places in Nepal.',
   }
 }

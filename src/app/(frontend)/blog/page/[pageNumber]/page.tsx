@@ -36,6 +36,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       categories: true,
       meta: true,
       populatedAuthors: true,
+      heroImage: true,
     },
   })
 

@@ -20,6 +20,7 @@ export default async function Page() {
       title: true,
       authors: true,
       slug: true,
+      heroImage: true,
       categories: true,
       meta: true,
       populatedAuthors: true,

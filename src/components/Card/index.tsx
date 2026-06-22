@@ -1,4 +1,5 @@
 'use client'
+
 import { cn } from '@/utilities/ui'
 import useClickableCard from '@/utilities/useClickableCard'
 import Link from 'next/link'
@@ -15,7 +16,7 @@ type CardAuthor = {
   title?: string | null
 }
 
-export type CardBlogData = Pick<Blog, 'slug' | 'categories' | 'meta' | 'title'> & {
+export type CardBlogData = Pick<Blog, 'slug' | 'categories' | 'meta' | 'title' | 'heroImage'> & {
   populatedAuthors?: CardAuthor[] | null
 }
 
@@ -30,28 +31,35 @@ export const Card: React.FC<{
   const { card, link } = useClickableCard({})
   const cardRef = card.ref
   const linkRef = link.ref
+
   const setCardRef = React.useCallback(
     (node: HTMLElement | null) => {
       cardRef.current = node
     },
     [cardRef],
   )
+
   const setLinkRef = React.useCallback(
     (node: HTMLAnchorElement | null) => {
       linkRef.current = node
     },
     [linkRef],
   )
+
   const { className, doc, relationTo, showCategories, title: titleFromProps } = props
 
-  const { slug, categories, meta, populatedAuthors, title } = doc || {}
+  const { slug, categories, meta, populatedAuthors, title, heroImage } = doc || {}
   const { description, image: metaImage } = meta || {}
 
+  const imageToUse = heroImage || metaImage
+
   const hasCategories = categories && Array.isArray(categories) && categories.length > 0
+
   const author = populatedAuthors?.find((author) => author?.name || author?.title || author?.image)
   const authorImage = author?.image
   const authorName = author?.name
   const authorTitle = author?.title
+
   const authorInitials = authorName
     ?.split(' ')
     .filter(Boolean)
@@ -59,9 +67,12 @@ export const Card: React.FC<{
     .join('')
     .slice(0, 2)
     .toUpperCase()
+
   const titleToUse = titleFromProps || title
-  const sanitizedDescription = description?.replace(/\s/g, ' ') // replace non-breaking space with white space
-  const href = relationTo === 'blogs' ? `/blog/${slug}` : '#'
+
+  const sanitizedDescription = description?.replace(/\s/g, ' ')
+
+  const href = relationTo === 'blogs' && slug ? `/blog/${slug}` : '#'
 
   return (
     <article
@@ -71,10 +82,22 @@ export const Card: React.FC<{
       )}
       ref={setCardRef}
     >
-      <div className="relative w-full ">
-        {!metaImage && <div className="">No image</div>}
-        {metaImage && typeof metaImage !== 'string' && <Media resource={metaImage} size="33vw" />}
+      <div className="relative h-56 w-full overflow-hidden bg-[var(--pn-sage-light)]">
+        {imageToUse && typeof imageToUse === 'object' ? (
+          <Media
+            fill
+            imgClassName="object-cover transition duration-700 group-hover:scale-105"
+            pictureClassName="block h-full w-full"
+            resource={imageToUse}
+            size="33vw"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center font-mono text-[0.64rem] uppercase tracking-[0.24em] text-[var(--pn-mist)]">
+            No image
+          </div>
+        )}
       </div>
+
       <div className="p-4">
         {showCategories && hasCategories && (
           <div className="mb-4 font-mono text-[0.64rem] uppercase tracking-[0.2em] text-[var(--pn-orange)]">
@@ -83,7 +106,6 @@ export const Card: React.FC<{
                 const { slug: categorySlug, title: titleFromCategory } = category
 
                 const categoryTitle = titleFromCategory || 'Untitled category'
-
                 const isLast = index === categories.length - 1
 
                 return (
@@ -98,6 +120,7 @@ export const Card: React.FC<{
                     ) : (
                       categoryTitle
                     )}
+
                     {!isLast && <Fragment>, &nbsp;</Fragment>}
                   </Fragment>
                 )
@@ -107,6 +130,7 @@ export const Card: React.FC<{
             })}
           </div>
         )}
+
         {titleToUse && (
           <div>
             <h3 className="font-serif text-2xl font-bold leading-tight text-[var(--pn-navy)]">
@@ -116,6 +140,7 @@ export const Card: React.FC<{
             </h3>
           </div>
         )}
+
         {author && (
           <div className="mt-4 flex min-w-0 items-center gap-3 text-sm">
             <div className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[var(--pn-sage-light)] text-xs font-semibold text-[var(--pn-sage-dark)]">
@@ -131,21 +156,24 @@ export const Card: React.FC<{
                 <span>{authorInitials || 'PN'}</span>
               )}
             </div>
+
             <div className="min-w-0">
               {authorName && (
                 <p className="truncate font-semibold leading-none text-[var(--pn-navy)]">
                   {authorName}
                 </p>
               )}
+
               {authorTitle && (
                 <p className="mt-1 truncate leading-none text-[var(--pn-mist)]">{authorTitle}</p>
               )}
             </div>
           </div>
         )}
+
         {description && (
           <div className="mt-3 text-sm leading-6 text-[var(--pn-body)]">
-            {description && <p>{sanitizedDescription}</p>}
+            <p>{sanitizedDescription}</p>
           </div>
         )}
       </div>
