@@ -26,8 +26,13 @@ export default async function TourPackagesPaginatedPage({ params: paramsPromise 
   return (
     <main className="pb-24 pt-24">
       <div className="container mb-16">
-        <div className="prose max-w-none">
-          <h1>Tour Packages</h1>
+        <div className="max-w-3xl">
+          <p className="font-mono text-[0.64rem] uppercase tracking-[0.28em] text-[var(--pn-mist)]">
+            Guided journeys across Nepal
+          </p>
+          <h1 className="mt-3 font-serif text-5xl font-bold leading-tight text-[var(--pn-navy)]">
+            Tour Packages
+          </h1>
         </div>
       </div>
 

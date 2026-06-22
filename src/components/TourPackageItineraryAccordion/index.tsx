@@ -44,7 +44,7 @@ export const TourPackageItineraryAccordion: React.FC<{
             value={value}
           >
             <div className="absolute bottom-0 left-5 top-0 w-px bg-border" />
-            <div className="absolute left-[0.78rem] top-5 flex size-8 items-center justify-center rounded-full border border-[#B23A48] bg-background text-xs font-semibold text-[#B23A48]">
+            <div className="absolute left-[0.78rem] top-5 flex size-8 items-center justify-center rounded-full border border-[#E8501A] bg-background text-xs font-semibold text-[#E8501A]">
               {day.day || index + 1}
             </div>
 
@@ -82,7 +82,7 @@ export const TourPackageItineraryAccordion: React.FC<{
 
                         return (
                           <div
-                            className="rounded-lg border border-border bg-card p-4"
+                            className="rounded-[var(--radius-card)] border border-[var(--pn-border)] bg-white p-4"
                             key={option.id || option.optionId}
                           >
                             <p className="text-sm font-semibold">
@@ -136,25 +136,25 @@ export const TourPackageItineraryAccordion: React.FC<{
                   <div className="grid gap-2 text-sm text-muted-foreground">
                     {day.accommodation && (
                       <p className="flex gap-2">
-                        <MapPinned className="mt-0.5 size-4 shrink-0 text-[#B23A48]" />
+                        <MapPinned className="mt-0.5 size-4 shrink-0 text-[#E8501A]" />
                         <span>{day.accommodation}</span>
                       </p>
                     )}
                     {meals.length > 0 && (
                       <p className="flex gap-2">
-                        <Utensils className="mt-0.5 size-4 shrink-0 text-[#B23A48]" />
+                        <Utensils className="mt-0.5 size-4 shrink-0 text-[#E8501A]" />
                         <span>{meals.join(', ')}</span>
                       </p>
                     )}
                     {activityFacts.length > 0 && (
                       <p className="flex gap-2">
-                        <Footprints className="mt-0.5 size-4 shrink-0 text-[#B23A48]" />
+                        <Footprints className="mt-0.5 size-4 shrink-0 text-[#E8501A]" />
                         <span>{activityFacts.join(' / ')}</span>
                       </p>
                     )}
                     {optionalActivities.length > 0 && (
                       <p className="flex gap-2">
-                        <Clock className="mt-0.5 size-4 shrink-0 text-[#B23A48]" />
+                        <Clock className="mt-0.5 size-4 shrink-0 text-[#E8501A]" />
                         <span>Optional: {optionalActivities.join(', ')}</span>
                       </p>
                     )}

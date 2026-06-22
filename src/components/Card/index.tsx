@@ -28,6 +28,20 @@ export const Card: React.FC<{
   title?: string
 }> = (props) => {
   const { card, link } = useClickableCard({})
+  const cardRef = card.ref
+  const linkRef = link.ref
+  const setCardRef = React.useCallback(
+    (node: HTMLElement | null) => {
+      cardRef.current = node
+    },
+    [cardRef],
+  )
+  const setLinkRef = React.useCallback(
+    (node: HTMLAnchorElement | null) => {
+      linkRef.current = node
+    },
+    [linkRef],
+  )
   const { className, doc, relationTo, showCategories, title: titleFromProps } = props
 
   const { slug, categories, meta, populatedAuthors, title } = doc || {}
@@ -52,10 +66,10 @@ export const Card: React.FC<{
   return (
     <article
       className={cn(
-        'border border-border rounded-lg overflow-hidden bg-card hover:cursor-pointer',
+        'overflow-hidden rounded-[var(--radius-card)] border border-[var(--pn-border)] bg-white transition-shadow duration-300 hover:cursor-pointer hover:shadow-[0_18px_46px_rgba(28,46,94,0.1)]',
         className,
       )}
-      ref={card.ref}
+      ref={setCardRef}
     >
       <div className="relative w-full ">
         {!metaImage && <div className="">No image</div>}
@@ -63,7 +77,7 @@ export const Card: React.FC<{
       </div>
       <div className="p-4">
         {showCategories && hasCategories && (
-          <div className="uppercase text-sm mb-4">
+          <div className="mb-4 font-mono text-[0.64rem] uppercase tracking-[0.2em] text-[var(--pn-orange)]">
             {categories?.map((category, index) => {
               if (typeof category === 'object') {
                 const { slug: categorySlug, title: titleFromCategory } = category
@@ -94,9 +108,9 @@ export const Card: React.FC<{
           </div>
         )}
         {titleToUse && (
-          <div className="prose">
-            <h3>
-              <Link className="not-prose" href={href} ref={link.ref}>
+          <div>
+            <h3 className="font-serif text-2xl font-bold leading-tight text-[var(--pn-navy)]">
+              <Link className="not-prose" href={href} ref={setLinkRef}>
                 {titleToUse}
               </Link>
             </h3>
@@ -104,7 +118,7 @@ export const Card: React.FC<{
         )}
         {author && (
           <div className="mt-4 flex min-w-0 items-center gap-3 text-sm">
-            <div className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-muted text-xs font-medium text-muted-foreground">
+            <div className="relative flex size-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[var(--pn-sage-light)] text-xs font-semibold text-[var(--pn-sage-dark)]">
               {authorImage && typeof authorImage === 'object' ? (
                 <Media
                   fill
@@ -118,14 +132,22 @@ export const Card: React.FC<{
               )}
             </div>
             <div className="min-w-0">
-              {authorName && <p className="truncate font-medium leading-none">{authorName}</p>}
+              {authorName && (
+                <p className="truncate font-semibold leading-none text-[var(--pn-navy)]">
+                  {authorName}
+                </p>
+              )}
               {authorTitle && (
-                <p className="mt-1 truncate text-muted-foreground leading-none">{authorTitle}</p>
+                <p className="mt-1 truncate leading-none text-[var(--pn-mist)]">{authorTitle}</p>
               )}
             </div>
           </div>
         )}
-        {description && <div className="mt-2">{description && <p>{sanitizedDescription}</p>}</div>}
+        {description && (
+          <div className="mt-3 text-sm leading-6 text-[var(--pn-body)]">
+            {description && <p>{sanitizedDescription}</p>}
+          </div>
+        )}
       </div>
     </article>
   )

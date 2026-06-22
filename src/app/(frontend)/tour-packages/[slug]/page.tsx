@@ -78,22 +78,22 @@ export default async function TourPackagePage({ params: paramsPromise }: Args) {
 
       <nav className="sticky top-0 z-20 border-b border-border bg-background/95 backdrop-blur">
         <div className="container flex gap-5 overflow-x-auto py-4 text-sm font-medium">
-          <a className="whitespace-nowrap hover:text-[#B23A48]" href="#summary">
+          <a className="whitespace-nowrap hover:text-[#E8501A]" href="#summary">
             Summary
           </a>
-          <a className="whitespace-nowrap hover:text-[#B23A48]" href="#itinerary">
+          <a className="whitespace-nowrap hover:text-[#E8501A]" href="#itinerary">
             Itinerary
           </a>
-          <a className="whitespace-nowrap hover:text-[#B23A48]" href="#included">
+          <a className="whitespace-nowrap hover:text-[#E8501A]" href="#included">
             Included
           </a>
           {faqs.length > 0 && (
-            <a className="whitespace-nowrap hover:text-[#B23A48]" href="#faqs">
+            <a className="whitespace-nowrap hover:text-[#E8501A]" href="#faqs">
               FAQs
             </a>
           )}
           {galleryImages.length > 0 && (
-            <a className="whitespace-nowrap hover:text-[#B23A48]" href="#photos">
+            <a className="whitespace-nowrap hover:text-[#E8501A]" href="#photos">
               Photos
             </a>
           )}
@@ -103,7 +103,7 @@ export default async function TourPackagePage({ params: paramsPromise }: Args) {
       <div className="container grid gap-12 pt-14 lg:grid-cols-[minmax(0,1fr)_22rem]">
         <div className="space-y-16">
           <section id="summary">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#B23A48]">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#E8501A]">
               Trip dossier
             </p>
             <h2 className="mt-3 text-4xl font-semibold leading-tight">
@@ -121,7 +121,7 @@ export default async function TourPackagePage({ params: paramsPromise }: Args) {
           {highlights.length > 0 && (
             <section>
               <div className="mb-7 flex items-center gap-3">
-                <ShieldCheck className="size-6 text-[#B23A48]" />
+                <ShieldCheck className="size-6 text-[#E8501A]" />
                 <h2 className="text-3xl font-semibold">Trip highlights</h2>
               </div>
               <div className="grid gap-4 md:grid-cols-2">
@@ -133,7 +133,7 @@ export default async function TourPackagePage({ params: paramsPromise }: Args) {
 
                   return (
                     <div
-                      className="overflow-hidden rounded-lg border border-border bg-card"
+                      className="overflow-hidden rounded-[var(--radius-card)] border border-[var(--pn-border)] bg-white"
                       key={highlight.id || highlight.name}
                     >
                       {image && (
@@ -170,7 +170,7 @@ export default async function TourPackagePage({ params: paramsPromise }: Args) {
           {tourPackage.itinerary && tourPackage.itinerary.length > 0 && (
             <section id="itinerary">
               <div className="mb-7">
-                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#B23A48]">
+                <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#E8501A]">
                   Day by day
                 </p>
                 <h2 className="mt-3 text-4xl font-semibold leading-tight">Itinerary</h2>
@@ -198,13 +198,13 @@ export default async function TourPackagePage({ params: paramsPromise }: Args) {
 
               <div>
                 <div className="mb-5 flex items-center gap-3">
-                  <CircleX className="size-6 text-[#B23A48]" />
+                  <CircleX className="size-6 text-[#E8501A]" />
                   <h2 className="text-3xl font-semibold">Not included</h2>
                 </div>
                 <ul className="space-y-3 text-sm leading-6 text-muted-foreground">
                   {exclusions.map((item) => (
                     <li className="flex gap-3" key={item.id || item.item}>
-                      <CircleX className="mt-1 size-4 shrink-0 text-[#B23A48]" />
+                      <CircleX className="mt-1 size-4 shrink-0 text-[#E8501A]" />
                       <span>{item.item}</span>
                     </li>
                   ))}
@@ -216,13 +216,13 @@ export default async function TourPackagePage({ params: paramsPromise }: Args) {
           {permits.length > 0 && (
             <section>
               <div className="mb-6 flex items-center gap-3">
-                <ShieldCheck className="size-6 text-[#D69E2E]" />
+                <ShieldCheck className="size-6 text-[#E8501A]" />
                 <h2 className="text-3xl font-semibold">Licences and permits</h2>
               </div>
               <div className="grid gap-4 md:grid-cols-2">
                 {permits.map((permit) => (
                   <div
-                    className="rounded-lg border border-border bg-card p-5"
+                    className="rounded-[var(--radius-card)] border border-[var(--pn-border)] bg-white p-5"
                     key={permit.id || permit.name}
                   >
                     <h3 className="text-lg font-medium">{permit.name}</h3>
@@ -246,13 +246,13 @@ export default async function TourPackagePage({ params: paramsPromise }: Args) {
           {faqs.length > 0 && (
             <section id="faqs">
               <div className="mb-6 flex items-center gap-3">
-                <HelpCircle className="size-6 text-[#B23A48]" />
+                <HelpCircle className="size-6 text-[#E8501A]" />
                 <h2 className="text-3xl font-semibold">Useful info</h2>
               </div>
               <div className="space-y-3">
                 {faqs.map((faq) => (
                   <details
-                    className="rounded-lg border border-border bg-card p-5"
+                    className="rounded-[var(--radius-card)] border border-[var(--pn-border)] bg-white p-5"
                     key={faq.id || faq.question}
                   >
                     <summary className="cursor-pointer text-lg font-medium">{faq.question}</summary>
@@ -266,7 +266,7 @@ export default async function TourPackagePage({ params: paramsPromise }: Args) {
           {galleryImages.length > 0 && (
             <section id="photos">
               <div className="mb-6 flex items-center gap-3">
-                <Images className="size-6 text-[#B23A48]" />
+                <Images className="size-6 text-[#E8501A]" />
                 <h2 className="text-3xl font-semibold">Photos from the trip</h2>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -292,7 +292,7 @@ export default async function TourPackagePage({ params: paramsPromise }: Args) {
         </div>
 
         <aside className="lg:sticky lg:top-24 lg:self-start">
-          <div className="rounded-lg border border-border bg-card p-5">
+          <div className="rounded-[var(--radius-card)] border border-[var(--pn-border)] bg-white p-5">
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               Ready to plan?
             </p>
@@ -303,7 +303,10 @@ export default async function TourPackagePage({ params: paramsPromise }: Args) {
             </p>
             <div className="mt-6 flex flex-col gap-3">
               {whatsappHref && (
-                <Button asChild className="bg-[#B23A48] text-white hover:bg-[#9c2f3e]">
+                <Button
+                  asChild
+                  className="bg-[var(--pn-sage)] text-white hover:bg-[var(--pn-sage-dark)]"
+                >
                   <a href={whatsappHref} target="_blank">
                     <MessageCircle className="size-4" />
                     Chat to book

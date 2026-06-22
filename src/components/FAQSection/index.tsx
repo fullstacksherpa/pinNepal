@@ -113,19 +113,19 @@ export const FAQSectionContent: React.FC<{
   if (!faqs.length) return null
 
   return (
-    <section className="border-t border-[#D8E3DC] bg-[#EEF5F1] py-16 md:py-20">
+    <section className="border-t border-[var(--pn-border)] bg-[var(--pn-sage-light)] py-16 md:py-20">
       <div className="container grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
         <div className="max-w-xl">
-          <div className="mb-5 flex size-12 items-center justify-center rounded-full bg-[#B23A48] text-white shadow-sm">
+          <div className="mb-5 flex size-12 items-center justify-center rounded-full bg-[var(--pn-sage)] text-white shadow-sm">
             <HelpCircle className="size-6" aria-hidden="true" />
           </div>
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-[#B23A48]">
+          <p className="font-mono text-[0.64rem] uppercase tracking-[0.28em] text-[var(--pn-mist)]">
             Before you go
           </p>
-          <h2 className="mt-3 text-4xl font-semibold leading-tight text-[#102A2C] md:text-5xl">
+          <h2 className="mt-3 font-serif text-4xl font-bold leading-tight text-[var(--pn-navy)] md:text-5xl">
             Trip questions, answered
           </h2>
-          <p className="mt-5 max-w-md text-base leading-7 text-[#47615C]">
+          <p className="mt-5 max-w-md text-base leading-7 text-[var(--pn-body)]">
             Practical notes for timing, permits, planning, and booking travel across Nepal.
           </p>
         </div>
@@ -133,19 +133,19 @@ export const FAQSectionContent: React.FC<{
         <Accordion className="space-y-3" collapsible defaultValue={String(faqs[0].id)} type="single">
           {faqs.map((faq, index) => (
             <AccordionItem
-              className="overflow-hidden rounded-lg border border-[#C8D8D0] bg-white/90 px-5 shadow-sm transition-colors data-[state=open]:border-[#B23A48]/45"
+              className="overflow-hidden rounded-[var(--radius-card)] border border-[var(--pn-border)] bg-white/90 px-5 shadow-sm transition-colors data-[state=open]:border-[var(--pn-orange)]"
               key={faq.id}
               value={String(faq.id)}
             >
-              <AccordionTrigger className="gap-4 py-5 text-left text-base font-semibold leading-6 text-[#102A2C] hover:no-underline md:text-lg">
+              <AccordionTrigger className="gap-4 py-5 text-left text-base font-semibold leading-6 text-[var(--pn-navy)] hover:no-underline md:text-lg">
                 <span className="flex items-start gap-4">
-                  <span className="mt-0.5 font-mono text-xs font-semibold uppercase tracking-normal text-[#B23A48]">
+                  <span className="mt-0.5 font-mono text-xs uppercase tracking-normal text-[var(--pn-orange)]">
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <span>{faq.question}</span>
                 </span>
               </AccordionTrigger>
-              <AccordionContent className="pb-5 pl-10 text-base leading-7 text-[#47615C]">
+              <AccordionContent className="pb-5 pl-10 text-base leading-7 text-[var(--pn-body)]">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>

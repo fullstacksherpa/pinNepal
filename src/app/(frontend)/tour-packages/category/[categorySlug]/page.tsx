@@ -33,11 +33,13 @@ export default async function TourPackageCategoryPage({ params: paramsPromise }:
   return (
     <main className="pb-24 pt-24">
       <div className="container mb-16">
-        <div className="prose max-w-none">
-          <p className="text-sm font-medium uppercase tracking-[0.18em] text-muted-foreground">
+        <div className="max-w-3xl">
+          <p className="font-mono text-[0.64rem] uppercase tracking-[0.28em] text-[var(--pn-mist)]">
             Tour package category
           </p>
-          <h1>{category.title}</h1>
+          <h1 className="mt-3 font-serif text-5xl font-bold leading-tight text-[var(--pn-navy)]">
+            {category.title}
+          </h1>
         </div>
       </div>
 

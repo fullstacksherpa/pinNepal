@@ -33,12 +33,18 @@ export default async function BlogCategoryPage({ params: paramsPromise }: Args) 
   return (
     <main className="pt-24 pb-24">
       <div className="container mb-16">
-        <div className="prose max-w-none">
-          <p className="text-sm font-medium uppercase tracking-[0.18em] text-muted-foreground">
+        <div className="max-w-3xl">
+          <p className="font-mono text-[0.64rem] uppercase tracking-[0.28em] text-[var(--pn-mist)]">
             Blog category
           </p>
-          <h1>{category.title}</h1>
-          {category.description && <p>{category.description}</p>}
+          <h1 className="mt-3 font-serif text-5xl font-bold leading-tight text-[var(--pn-navy)]">
+            {category.title}
+          </h1>
+          {category.description && (
+            <p className="mt-5 text-lg leading-8 text-[var(--pn-navy)]">
+              {category.description}
+            </p>
+          )}
         </div>
       </div>
 

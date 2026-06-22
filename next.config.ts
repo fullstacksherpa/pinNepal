@@ -21,6 +21,8 @@ const nextConfig: NextConfig = {
   images: {
     loader: 'custom',
     loaderFile: './src/utilities/bunny-loader.ts',
+    // ADDED: Tell Next.js that quality=100 is allowed
+    qualities: [75, 100],
     remotePatterns: [
       {
         protocol: 'https',

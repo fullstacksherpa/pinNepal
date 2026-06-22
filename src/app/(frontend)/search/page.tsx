@@ -63,10 +63,18 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
     <div className="pt-24 pb-24">
       <PageClient />
       <div className="container mb-16">
-        <div className="prose max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">Search</h1>
+        <div className="mx-auto max-w-3xl text-center">
+          <p className="font-mono text-[0.64rem] uppercase tracking-[0.28em] text-[var(--pn-mist)]">
+            Find your route
+          </p>
+          <h1 className="mt-3 font-serif text-5xl font-bold leading-tight text-[var(--pn-navy)]">
+            Search PinNepal
+          </h1>
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[var(--pn-navy)]">
+            Look up destinations, tour packages, route notes, and practical Nepal travel guides.
+          </p>
 
-          <div className="max-w-[50rem] mx-auto">
+          <div className="mx-auto mt-8 max-w-[50rem]">
             <Search />
           </div>
         </div>
@@ -75,7 +83,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       {blogs.totalDocs > 0 ? (
         <CollectionArchive blogs={blogs.docs as CardBlogData[]} />
       ) : (
-        <div className="container">No results found.</div>
+        <div className="container text-[var(--pn-body)]">No route notes found for this search.</div>
       )}
     </div>
   )

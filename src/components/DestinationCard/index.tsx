@@ -56,14 +56,15 @@ export const DestinationCard: React.FC<{
   return (
     <article
       className={[
-        'flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card',
+        'flex h-full flex-col overflow-hidden rounded-[var(--radius-card)] border border-[var(--pn-border)] bg-white',
+        'transition-shadow duration-300 hover:shadow-[0_18px_46px_rgba(28,46,94,0.1)]',
         className,
       ]
         .filter(Boolean)
         .join(' ')}
     >
       <Link className="block" href={`/destinations/${slug}`}>
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-muted">
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-[var(--pn-sage)]">
           {image ? (
             <Media
               fill
@@ -73,7 +74,7 @@ export const DestinationCard: React.FC<{
               size="(max-width: 768px) 100vw, 33vw"
             />
           ) : (
-            <div className="flex h-full items-center justify-center px-6 text-center text-sm font-medium text-muted-foreground">
+            <div className="flex h-full items-center justify-center px-6 text-center text-sm font-semibold text-white/80">
               {name}
             </div>
           )}
@@ -82,7 +83,7 @@ export const DestinationCard: React.FC<{
 
       <div className="flex flex-1 flex-col p-5">
         {showCategories && hasCategories && (
-          <div className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
+          <div className="mb-4 font-mono text-[0.64rem] uppercase tracking-[0.2em] text-[var(--pn-orange)]">
             {categories?.map((category, index) => {
               if (!category || typeof category !== 'object') return null
 
@@ -108,20 +109,23 @@ export const DestinationCard: React.FC<{
           </div>
         )}
 
-        <h2 className="text-2xl font-medium leading-tight">
+        <h2 className="font-serif text-2xl font-bold leading-tight text-[var(--pn-navy)]">
           <Link href={`/destinations/${slug}`}>{name}</Link>
         </h2>
 
         {districtLabel && (
-          <p className="mt-3 text-sm font-medium text-muted-foreground">{districtLabel}</p>
+          <p className="mt-3 text-sm font-semibold text-[var(--pn-mist)]">{districtLabel}</p>
         )}
 
-        <p className="mt-4 line-clamp-3 text-sm leading-6 text-muted-foreground">{summary}</p>
+        <p className="mt-4 line-clamp-3 text-sm leading-6 text-[var(--pn-body)]">{summary}</p>
 
         {detailItems.length > 0 && (
-          <div className="mt-5 flex flex-wrap gap-2 text-xs text-muted-foreground">
+          <div className="mt-5 flex flex-wrap gap-2 font-mono text-xs text-[var(--pn-mist)]">
             {detailItems.map((item) => (
-              <span className="rounded-md border border-border px-2 py-1" key={item}>
+              <span
+                className="rounded-[var(--radius-btn)] border border-[var(--pn-border)] px-2 py-1"
+                key={item}
+              >
                 {item}
               </span>
             ))}
