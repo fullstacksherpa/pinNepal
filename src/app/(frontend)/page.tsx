@@ -1,3 +1,6 @@
+import { PopularBlogs } from '@/components/HomeSection/Popular-blog'
+import { PopularDestinations } from '@/components/HomeSection/popular-destinations'
+import { PopularTourPackages } from '@/components/HomeSection/Popular-tour-packages'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -25,8 +28,8 @@ export default function Page() {
               Nepal routes planned by people who live here
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-white/85">
-              Compare trekking routes, motorbike journeys, cultural stops, and practical field
-              notes from a local team that knows the roads beyond Kathmandu.
+              Compare trekking routes, motorbike journeys, cultural stops, and practical field notes
+              from a local team that knows the roads beyond Kathmandu.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg">
@@ -44,35 +47,9 @@ export default function Page() {
           </div>
         </div>
       </section>
-
-      <section className="border-b border-[var(--pn-border)] bg-[var(--pn-snow)] py-12">
-        <div className="container grid gap-6 md:grid-cols-3">
-          <div>
-            <p className="font-mono text-[0.64rem] uppercase tracking-[0.24em] text-[var(--pn-mist)]">
-              Treks
-            </p>
-            <p className="mt-2 font-serif text-2xl font-bold text-[var(--pn-navy)]">
-              Tea house routes with real elevations
-            </p>
-          </div>
-          <div>
-            <p className="font-mono text-[0.64rem] uppercase tracking-[0.24em] text-[var(--pn-mist)]">
-              Places
-            </p>
-            <p className="mt-2 font-serif text-2xl font-bold text-[var(--pn-navy)]">
-              Districts, valleys, and road access
-            </p>
-          </div>
-          <div>
-            <p className="font-mono text-[0.64rem] uppercase tracking-[0.24em] text-[var(--pn-mist)]">
-              Rides
-            </p>
-            <p className="mt-2 font-serif text-2xl font-bold text-[var(--pn-navy)]">
-              Motorbike days from Kathmandu to Mustang
-            </p>
-          </div>
-        </div>
-      </section>
+      <PopularDestinations />
+      <PopularTourPackages />
+      <PopularBlogs />
     </main>
   )
 }

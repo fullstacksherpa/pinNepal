@@ -14,7 +14,7 @@ export const DestinationArchive: React.FC<{
 
           return (
             <div className="col-span-4" key={destination.id || destination.slug}>
-              <DestinationCard destination={destination} showCategories />
+              <DestinationCard destination={destination} />
             </div>
           )
         })}

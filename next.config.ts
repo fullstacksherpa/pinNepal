@@ -37,6 +37,9 @@ const nextConfig: NextConfig = {
       }),
     ],
   },
+  experimental: {
+    globalNotFound: true,
+  },
 
   // Required for Payload's internal file extensions parsing
   webpack: (webpackConfig) => {
